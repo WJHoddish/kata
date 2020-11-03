@@ -1,7 +1,12 @@
-cmake_minimum_required( VERSION 3.17 )
+cmake_minimum_required( VERSION 3.14 )
 project( kata_test )
 
 set( CMAKE_CXX_STANDARD 14 )
 
-add_executable( pmath pmath.cpp )
-target_link_libraries( pmath gtest gtest_main )
+function( add name )
+    add_executable( ${name} ${name}.cpp )
+    target_link_libraries( ${name} gtest gtest_main )
+endfunction()
+
+add( more_traits )
+add( pmath )
