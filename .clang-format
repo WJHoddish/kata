@@ -1,6 +1,6 @@
 ---
 Language: Cpp
-BasedOnStyle: LLVM
+#BasedOnStyle: LLVM
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments:  true
@@ -11,13 +11,13 @@ AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine:  false
 AllowShortBlocksOnASingleLine:              false
 AllowShortCaseLabelsOnASingleLine:          false
-AllowShortFunctionsOnASingleLine:           true
+AllowShortFunctionsOnASingleLine:           InlineOnly
 AllowShortIfStatementsOnASingleLine:        true
 AllowShortLoopsOnASingleLine:               true
 AlwaysBreakAfterDefinitionReturnType:       None
 AlwaysBreakAfterReturnType:                 None
 AlwaysBreakBeforeMultilineStrings:          false
-AlwaysBreakTemplateDeclarations:            true
+AlwaysBreakTemplateDeclarations:            Yes
 BinPackArguments:                           true
 BinPackParameters:                          true
 BraceWrapping:

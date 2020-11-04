@@ -6,6 +6,9 @@
 #ifndef KATA_PMATH_H
 #define KATA_PMATH_H
 
+#include "pmath/abs.h"
 #include "pmath/factorial.h"
+#include "pmath/max.h"
+#include "pmath/min.h"
 
 #endif

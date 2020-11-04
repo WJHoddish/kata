@@ -1,5 +1,5 @@
 /**
- * Pure-function math.
+ * Test Pure-function math.
  */
 
 #include <gtest/gtest.h>

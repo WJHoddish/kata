@@ -8,5 +8,6 @@ function( add name )
     target_link_libraries( ${name} gtest gtest_main )
 endfunction()
 
+#TODO: Add your test cases below.
 add( more_traits )
 add( pmath )
