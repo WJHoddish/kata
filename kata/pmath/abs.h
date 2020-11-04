@@ -6,8 +6,15 @@
 #define KATA_ABS_H
 
 namespace kata {
+/**
+ * Absolute value of <x>.
+ *
+ * @tparam T
+ * @param x
+ * @return
+ */
 template <typename T>
-constexpr T abs(const T& x) noexcept {
+constexpr T abs(const T x) noexcept {
   return x == T(0) ? //
              T(0)
                    :    //

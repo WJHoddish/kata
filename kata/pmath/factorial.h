@@ -5,22 +5,17 @@
 #ifndef KATA_FACTORIAL_H
 #define KATA_FACTORIAL_H
 
-#include <cstddef>
-
 namespace kata {
 /**
- * Indicate the factorial by <value>.
+ * Factorial of <N>.
  *
  * @tparam N
  */
-template <std::size_t N>
+template <int N>
 struct factorial {
   enum { value = N * factorial<N - 1>::value };
 };
 
-/**
- * The end of recursion.
- */
 template <>
 struct factorial<0> {
   enum { value = 1 };
