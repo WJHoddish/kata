@@ -9,9 +9,6 @@ namespace kata {
 template <typename...>
 struct type_list;
 
-template <>
-struct type_list<> {};
-
 /**
  *
  * @tparam Head
@@ -20,9 +17,11 @@ struct type_list<> {};
 template <typename Head, typename... Rest>
 struct type_list<Head, Rest...> {
   using head = Head;
-
   using rest = type_list<Rest...>;
 };
+
+template <>
+struct type_list<> {};
 
 } // namespace kata
 
