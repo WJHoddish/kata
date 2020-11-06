@@ -15,18 +15,14 @@ template <typename T>
 class Singleton : public NonCopyable {
 public:
   /**
-   * Get the unique instance of <T>.
+   * Get the unique instance of <T>: If the control enters the declaration
+   * concurrently while the variable is being initialized, the concurrent
+   * execution shall wait for completion of the initialization.
    *
    * @return
    */
   static T& get() noexcept(std::is_nothrow_constructible<T>::value) {
-    /**
-     * If the control enters the declaration concurrently while the variable is
-     * being initialized, the concurrent execution shall wait for completion of
-     * the initialization.
-     */
-
-    static T /*constructor of <T> requires a token instance*/ _{token()};
+    static T /*constructor of <T> requires a token as dependency*/ _{token()};
 
     return _;
   }
@@ -35,8 +31,6 @@ protected:
   struct token {};
 
   Singleton() noexcept = default;
-
-  // NOTE: No virtual function is used.
 };
 
 } // namespace kata
@@ -46,11 +40,13 @@ protected:
  */
 
 #define ENABLE_SINGLETON(class_name)                                           \
-  friend class kata::Singleton<class_name>;                                    \
-  class_name(typename kata::Singleton<class_name>::token) // constructor body =>
+  friend class Singleton<class_name>;                                          \
+  explicit class_name(                                                         \
+      typename Singleton<class_name>::token) /*constructor body*/
 
 #define ENABLE_SINGLETON_TEMPLATE(class_name, ...)                             \
-  friend class kata::Singleton<class_name<__VA_ARGS__>>;                       \
-  class_name(typename kata::Singleton<class_name<__VA_ARGS__>>::token)
+  friend class Singleton<class_name<__VA_ARGS__>>;                             \
+  explicit class_name(                                                         \
+      typename Singleton<class_name<__VA_ARGS__>>::token) /*constructor body*/
 
 #endif
