@@ -5,6 +5,8 @@
 #ifndef KATA_AT_H
 #define KATA_AT_H
 
+#include <cstddef>
+
 namespace kata {
 template <std::size_t i, typename... Args>
 struct at;

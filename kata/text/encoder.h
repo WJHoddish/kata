@@ -6,6 +6,8 @@
 #ifndef KATA_ENCODER_H
 #define KATA_ENCODER_H
 
-namespace kata {}
+namespace kata {
+// TODO:
+}
 
 #endif
