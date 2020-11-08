@@ -12,12 +12,7 @@ namespace kata {
 template <typename T, unsigned int PAGE_SIZE = 1024>
 class SlotPool : public Singleton<SlotPool<T, PAGE_SIZE>> {
   ENABLE_SINGLETON_TEMPLATE(SlotPool, T, PAGE_SIZE) {
-    // TODO:
-    int i = 0;
-  }
-
-  ~SlotPool() {
-    // TODO:
+    // NOTE: Singleton, only init once, alloc a page.
   }
 };
 

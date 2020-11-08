@@ -5,4 +5,8 @@
 #ifndef KATA_MESSAGE_BUS_H
 #define KATA_MESSAGE_BUS_H
 
+#include "../more_traits/function_traits.h"
+
+namespace kata {}
+
 #endif
