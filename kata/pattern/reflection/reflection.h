@@ -5,4 +5,6 @@
 #ifndef KATA_REFLECTION_H
 #define KATA_REFLECTION_H
 
+namespace kata {}
+
 #endif

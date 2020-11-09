@@ -3,9 +3,6 @@
  */
 
 #include "pattern/slot_pool.h"
-
-///
-
 #include "text/line.h"
 #include <gtest/gtest.h>
 

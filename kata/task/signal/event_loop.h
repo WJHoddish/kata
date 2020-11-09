@@ -5,4 +5,6 @@
 #ifndef KATA_EVENT_LOOP_H
 #define KATA_EVENT_LOOP_H
 
+namespace kata {}
+
 #endif

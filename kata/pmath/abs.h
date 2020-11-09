@@ -15,13 +15,9 @@ namespace kata {
  */
 template <typename T>
 constexpr T abs(const T x) noexcept {
-  return x == T(0) ? //
-             T(0)
-                   :    //
-             x < T(0) ? //
-                 -x
-                      : //
-                 x;
+  return x < T(0)    ? -x   // abs(-1) = 1
+         : x == T(0) ? T(0) // abs(0) = 0
+                     : x;   // abs(1) = 1
 }
 
 } // namespace kata

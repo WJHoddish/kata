@@ -1,7 +1,7 @@
 // Copyright (c) 2020/11/6 Jiaheng
 // Author: Jiaheng <wjhgeneral@outlook.com>
 //
-// Object pool made of fixed-size slots, an example of singleton.
+// Object pool made of fixed-size slots, also an example of singleton.
 
 #ifndef KATA_SLOT_POOL_H
 #define KATA_SLOT_POOL_H

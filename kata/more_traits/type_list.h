@@ -20,6 +20,9 @@ struct type_list<Head, Rest...> {
   using rest = type_list<Rest...>;
 };
 
+/**
+ * Empty list.
+ */
 template <>
 struct type_list<> {};
 

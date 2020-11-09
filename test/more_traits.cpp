@@ -40,15 +40,14 @@ TEST(more_traits, at) {
 }
 
 TEST(more_traits, switch_case) {
-  using namespace kata;
-
   EXPECT_EQ(
-      (std::is_same<
-          typename switch_<3 /*switch()*/, case_<1, A,            /*case 1:*/
-                                                 case_<2, B,      /*case 2:*/
-                                                       case_<3, C /*case 3:*/
-                                                             >>>>::type,
-          C>::value),
+      (std::is_same<typename kata::switch_<
+                        3 /*switch()*/,
+                        kata::case_<1, A,                        /*case 1:*/
+                                    kata::case_<2, B,            /*case 2:*/
+                                                kata::case_<3, C /*case 3:*/
+                                                            >>>>::type,
+                    C>::value),
       true);
 }
 
