@@ -10,6 +10,7 @@ endfunction()
 
 #TODO: Add your test cases below.
 add( more_traits )
+add( pattern )
 add( pmath )
-add( task ) # cpp multi-thread
+add( task ) #multi-thread
 add( text )
