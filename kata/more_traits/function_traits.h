@@ -13,8 +13,8 @@ template <typename T>
 struct function_traits;
 
 /**
- * Specifying a function only needs <R> and <Args...>, here is a class for the
- * "abstraction of function segments", which got 3 partial specializations.
+ * Specifying a function only needs <R> and <Args...>, this is a class for the
+ * "abstraction of function segments", which owns 3 partial specializations.
  *
  * @tparam R
  * @tparam Args
@@ -29,10 +29,14 @@ struct function_traits<R(Args...)> {
   };
 
   /**
-   * Derive such concepts from <R> and <Args...>:
+   * C-style function pointer:
    */
 
-  typedef R (*pointer)(Args...); // c-style function pointer
+  typedef R (*pointer)(Args...);
+
+  /**
+   * STL function object:
+   */
 
   typedef R function_type(Args...);
   using stl_function_type = std::function<function_type>;
@@ -44,31 +48,15 @@ struct function_traits<R(Args...)> {
       tuple_type_bare;
 };
 
-/**
- *
- * @tparam R
- * @tparam Args
- */
 template <typename R, typename... Args>
 struct function_traits<R (*)(Args...)> : function_traits<R(Args...)> {};
 
-/**
- *
- * @tparam R
- * @tparam Args
- */
 template <typename R, typename... Args>
 struct function_traits<std::function<R(Args...)>>
     : function_traits<R(Args...)> {};
 
-/**
- *
- * @tparam T
- */
 template <typename T>
 struct function_traits : function_traits<decltype(&T::operator())> {};
-
-//
 
 template <typename F, typename R = typename function_traits<F>::pointer>
 R to_function_pointer(const F& lambda) {

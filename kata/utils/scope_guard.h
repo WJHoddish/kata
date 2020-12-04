@@ -1,7 +1,7 @@
 // Copyright (c) 2020/11/9 Jiaheng
 // Author: Jiaheng <wjhgeneral@outlook.com>
 //
-// Ensure a gc handler will be called when an exception occurs in try-catch.
+// A garbage collector is triggered when an exception occurs in try blocks.
 
 #ifndef KATA_SCOPE_GUARD_H
 #define KATA_SCOPE_GUARD_H
@@ -11,12 +11,15 @@
 
 namespace kata {
 /**
+ * @brief Keep a functor as member var.
  *
- * @tparam F The register function, which is normally used for cleaning up (any
- * resource allocated in the try-catch statement).
+ * @tparam F The registered function.
  */
 template <typename F>
 class ScopeGuard {
+  F    func_;
+  bool dismiss_;
+
 public:
   explicit ScopeGuard(const F& f)
       : func_(f)
@@ -33,34 +36,25 @@ public:
   }
 
   /**
-   * Call the registered function in destructor if it meets an exception in
-   * try-catch.
+   * @brief Call the registered function in destruction if an exception occurs.
    */
   ~ScopeGuard() {
-    if (!dismiss_) {
-      func_();
-    }
+    if (!dismiss_) func_();
   }
 
   /**
-   * If there is no exception, manually call this func so that the registered
-   * function would not be executed.
+   * @brief Manually withdraw the registered function.
    */
   void dismiss() { dismiss_ = true; }
-
-private:
-  F func_;
-
-  bool dismiss_;
 };
 
 /**
- * Helper function: Generate a <ScopeGuard> instance in try-catch with a
- * function you use to delete all dangerous pointers.
+ * @brief Generate a ScopeGuard instance in try-catch with a function you use to
+ * prevent leakage.
  *
  * @tparam F
  * @tparam R
- * @param f It's normally a gc handler.
+ * @param f
  * @return
  */
 template <typename F, typename R = ScopeGuard<typename std::decay<F>::type>>

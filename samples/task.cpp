@@ -1,11 +1,12 @@
 /**
- * Test any component relates to string or character array.
+ * Try C++ multi-thread.
  */
 
-#include "text/line.h"
 #include <gtest/gtest.h>
 
-TEST(text, line) {
+#include "task/thread_pool.h"
+
+TEST(task, thread_pool) {
 }
 
 int main(int argc, char** argv) {

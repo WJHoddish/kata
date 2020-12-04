@@ -6,3 +6,4 @@ set( CMAKE_CXX_STANDARD 14 )
 include_directories( ./kata )
 
 add_subdirectory( ./test )
+add_subdirectory( ./samples )

@@ -2,11 +2,11 @@
 // Author: Jiaheng <wjhgeneral@outlook.com>
 //
 
-#include "kata_all.h"
 #include <gtest/gtest.h>
 
+#include "pattern/slot_pool.h"
+
 TEST(pattern, slot_pool) {
-  kata::SlotPool<int>::get();
 }
 
 int main(int argc, char** argv) {

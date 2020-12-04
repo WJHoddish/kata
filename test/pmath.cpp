@@ -3,6 +3,7 @@
  */
 
 #include <gtest/gtest.h>
+
 #include <pmath.h>
 
 TEST(pmath, abs) {

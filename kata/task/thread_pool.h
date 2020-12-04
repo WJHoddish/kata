@@ -6,26 +6,24 @@
 #ifndef KATA_THREAD_POOL_H
 #define KATA_THREAD_POOL_H
 
-#include "../utils/lock.h"
 #include <functional>
 #include <queue>
 #include <vector>
 
+#include "lock.h"
+
 namespace kata {
 class ThreadPool {
-public:
-private:
-  std::queue<std::function<void()>> tasks_;
   std::vector<std::thread>          workers_;
+  std::queue<std::function<void()>> tasks_;
+  std::mutex                        mtx_;
+  std::condition_variable           cv_;
+  bool                              stop_;
 
-  /**
-   * Thread pool control.
-   */
-
-  std::mutex              mtx_;
-  std::condition_variable cond_;
-  bool                    stop_; // shut down
+public:
 };
+
+// TODO(Jiaheng): Consider singleton.
 
 } // namespace kata
 
