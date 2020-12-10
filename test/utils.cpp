@@ -4,7 +4,18 @@
 
 #include <gtest/gtest.h>
 
+#include "experimental/any.h"
 #include "utils/scope_guard.h"
+
+TEST(utils, any) {
+  using namespace kata;
+
+  Any a(9);
+  std::cout << any_cast<int>(a) << std::endl;
+
+  a = 3.141;
+  std::cout << any_cast<double>(a) << std::endl;
+}
 
 TEST(utils, scope_guard) {
   try {
@@ -13,7 +24,7 @@ TEST(utils, scope_guard) {
 
     // throw;
 
-    // NOTE: Since no error, resources should not be released.
+    // NOTE: Very last of this block, if no error, do not release resources.
 
     sg.dismiss();
 

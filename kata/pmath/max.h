@@ -15,7 +15,7 @@ using common_t = typename std::common_type<T...>::type;
  * Choose the smaller one among two given numbers, maybe different in type.
  *
  * @tparam T1
- * @tparam T2
+ * @tparam
  * @param x
  * @param y
  * @return The common type that all params can be cast to.

@@ -6,8 +6,7 @@
 #define KATA_NONCOPYABLE_H
 
 namespace kata {
-class NonCopyable {
-protected:
+struct NonCopyable {
   NonCopyable()                   = default;
   NonCopyable(const NonCopyable&) = delete;
   NonCopyable& operator=(const NonCopyable&) = delete;

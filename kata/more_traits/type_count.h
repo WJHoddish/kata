@@ -10,6 +10,7 @@ template <typename T, typename... Args>
 struct type_count;
 
 /**
+ * Number of args in <...>.
  *
  * @tparam T
  * @tparam Head

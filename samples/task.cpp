@@ -6,7 +6,7 @@
 
 #include "task/thread_pool.h"
 
-TEST(task, thread_pool) {
+TEST(task, function_traits) {
 }
 
 int main(int argc, char** argv) {

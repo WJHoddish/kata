@@ -10,17 +10,9 @@
 #include <utility>
 
 namespace kata {
-/**
- * @brief Keep a functor as member var.
- *
- * @tparam F The registered function.
- */
 template <typename F>
 class ScopeGuard {
-  F    func_;
-  bool dismiss_;
-
-public:
+public: // structors
   explicit ScopeGuard(const F& f)
       : func_(f)
       , dismiss_(false) {}
@@ -29,27 +21,28 @@ public:
       : func_(std::move(f))
       , dismiss_(false) {}
 
-  ScopeGuard(ScopeGuard&& rhs) noexcept
-      : func_(std::move(rhs.func_))
-      , dismiss_(rhs.dismiss_) {
-    rhs.dismiss();
+  ScopeGuard(ScopeGuard&& _Rhs) noexcept
+      : func_(std::move(_Rhs.func_))
+      , dismiss_(_Rhs.dismiss_) {
+    _Rhs.dismiss();
   }
 
-  /**
-   * @brief Call the registered function in destruction if an exception occurs.
-   */
   ~ScopeGuard() {
     if (!dismiss_) func_();
   }
 
-  /**
-   * @brief Manually withdraw the registered function.
-   */
+public: // modifiers
   void dismiss() { dismiss_ = true; }
+
+  // NOTE: Call `dismiss()` manually to withdraw the function.
+
+private:
+  F    func_;
+  bool dismiss_;
 };
 
 /**
- * @brief Generate a ScopeGuard instance in try-catch with a function you use to
+ * Generate a ScopeGuard instance in try-catch with a function you use to
  * prevent leakage.
  *
  * @tparam F
