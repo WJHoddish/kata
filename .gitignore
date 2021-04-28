@@ -32,12 +32,11 @@
 *.app
 
 # Environment
-.idea/
+bin/
+build/
+lib/
 cmake-build-debug/
 cmake-build-release/
 cmake-build-relwithdebinfo/
-
+.idea/
 .vscode/
-
-# My folder
-build/
