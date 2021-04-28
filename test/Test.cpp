@@ -2,12 +2,14 @@
 // Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
 
+#include "Test.h"
+
 #include <gtest/gtest.h>
 
-#include "kata/thread_pool/joining_thread.h"
-#include "kata/thread_pool/thread_pool.h"
-
-TEST(TestThreadPool, ThreadPool) { std::cout << "hello, world" << std::endl; }
+TEST(Test, Noncopyable) {
+  D a;
+  // D b(a);
+}
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

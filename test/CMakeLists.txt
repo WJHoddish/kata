@@ -1,5 +1,8 @@
 set( TEST_LIST
-        TestKata
+        Test
+        TestGem
+        TestMoreTraits
+        TestThreadPool
         )
 
 foreach ( target ${TEST_LIST} )
