@@ -6,9 +6,23 @@
 
 #include <gtest/gtest.h>
 
-TEST(Test, Noncopyable) {
+TEST(Test, noncopyable) {
   D a;
   // D b(a);
+}
+
+TEST(Test, args) {
+  EXPECT_EQ(ARGS(), 0);
+
+  EXPECT_EQ(ARGS(char,
+                 short,
+                 int,
+                 float,
+                 double,
+                 long,
+                 unsigned int,
+                 unsigned long long),
+            8);
 }
 
 int main(int argc, char **argv) {

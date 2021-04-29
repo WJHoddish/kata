@@ -2,6 +2,7 @@ set( TEST_LIST
         Test
         TestGem
         TestMoreTraits
+        TestPattern
         TestThreadPool
         )
 

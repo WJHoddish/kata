@@ -7,6 +7,7 @@
 
 #include <iostream>
 
+#include "kata/args.h"
 #include "kata/noncopyable.h"
 
 #define CLASS(class_name)                                             \
@@ -18,6 +19,8 @@
 CLASS(A)
 CLASS(B)
 CLASS(C)
+
+//
 
 class D : public kata::Noncopyable {};
 
