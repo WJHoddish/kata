@@ -14,11 +14,11 @@
 
 using namespace kata;
 
-TEST(TestMoreTraits, AndOrGate) {}
+TEST(TestMoreTraits, and_or_gate) {}
 
-TEST(TestMoreTraits, At) {}
+TEST(TestMoreTraits, at) {}
 
-TEST(TestMoreTraits, SwitchCase) {
+TEST(TestMoreTraits, switch_case) {
   EXPECT_EQ(
       (std::is_same<
           typename switch_<2, case_<1, A, case_<2, B, case_<3, C>>>>::type,

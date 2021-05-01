@@ -6,7 +6,7 @@
 #ifndef KATA_BINARY_H
 #define KATA_BINARY_H
 
-namespace kata {
+namespace gem {
 
 //
 
@@ -20,6 +20,6 @@ struct binary<0> {
   enum { value = 0 };
 };
 
-}  // namespace kata
+}  // namespace gem
 
 #endif  // KATA_BINARY_H

@@ -4,23 +4,26 @@
 
 #include "TestThreadPool.h"
 
-#include <gtest/gtest.h>
-
-#include "kata/thread/joining_thread.h"
-#include "kata/thread/thread_pool.h"
-
-using namespace kata;
-
-TEST(TestThreadPool, ThreadPool) {
-  {
-    auto pool = ThreadPool();
-    for (int i = 0; i < 100; ++i) pool.enqueue(func, 0, i);
-  }
-
-  EXPECT_EQ(var, 4950);
+void thread_set_promise(std::promise<int>& prom) {
+  std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+  prom.set_value(35);
 }
 
-int main(int argc, char **argv) {
+TEST(TestThreadPool, promise_future) {
+  std::promise<int> prom;
+  std::future<int>  fu = prom.get_future();
+
+  // start thread
+  std::thread t(&thread_set_promise, std::ref(prom));
+
+  std::cout << "before get()" << std::endl;
+  fu.get();
+  std::cout << "after get()" << std::endl;
+
+  t.join();
+}
+
+int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

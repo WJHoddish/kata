@@ -6,7 +6,9 @@
 #ifndef KATA_ABS_H
 #define KATA_ABS_H
 
-namespace kata {
+#include <type_traits>
+
+namespace gem {
 
 //
 
@@ -15,6 +17,6 @@ constexpr T abs(const T x) noexcept {
   return x < T(0) ? -x : x == T(0) ? T(0) : x;
 }
 
-}  // namespace kata
+}  // namespace gem
 
 #endif  // KATA_ABS_H

@@ -3,6 +3,7 @@ set( TEST_LIST
         TestGem
         TestMoreTraits
         TestPattern
+        TestSignalSlot
         TestThreadPool
         )
 

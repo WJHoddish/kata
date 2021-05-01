@@ -6,7 +6,7 @@
 #ifndef KATA_FACTORIAL_H
 #define KATA_FACTORIAL_H
 
-namespace kata {
+namespace gem {
 
 //
 
@@ -20,6 +20,6 @@ struct factorial<0> {
   enum { value = 1 };
 };
 
-}  // namespace kata
+}  // namespace gem
 
 #endif  // KATA_FACTORIAL_H

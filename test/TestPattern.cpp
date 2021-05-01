@@ -4,13 +4,30 @@
 
 #include <gtest/gtest.h>
 
+#include "Test.h"
+#include "kata/pattern/multiton.h"
 #include "kata/pattern/singleton.h"
 
-class E : public kata::Singleton<E> {
+using namespace kata;
+
+class E : public Singleton<E> {
   ENABLE_SINGLETON(E) {}
 };
 
-TEST(TestPattern, Singleton) { E::get(); }
+class F {
+ public:
+  F(int data)
+      : data(data) {}
+
+  int data;
+};
+
+TEST(TestPattern, singleton) { E::get(); }
+
+TEST(TestPattern, multiton) {
+  Multiton<F>::get("a", 1);
+  Multiton<F>::get("a");
+}
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

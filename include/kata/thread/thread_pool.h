@@ -17,15 +17,13 @@ namespace kata {
 //
 
 class ThreadPool {
-  using task_t = std::function<void()>;
-
  public:
   explicit ThreadPool(std::size_t n = std::thread::hardware_concurrency())
       : stop_(false) {
     for (std::size_t i = 0; i < n; ++i) {
       workers_.emplace_back([this] {
         while (true) {
-          task_t task;
+          std::function<void()> task;
 
           {
             std::unique_lock<std::mutex> guard(mtx_);
@@ -65,7 +63,7 @@ class ThreadPool {
             class... Args,
             typename R = typename std::result_of<F(Args...)>::type>
   std::future<R> enqueue(F&& f, Args&&... args) {
-    auto task = std::make_shared<std::packaged_task<R()> >(
+    auto task = std::make_shared<std::packaged_task<R()>>(
         std::bind(std::forward<F>(f), std::forward<Args>(args)...));
     std::future<R> res = task->get_future();
 
@@ -81,11 +79,11 @@ class ThreadPool {
   }
 
  private:
-  std::vector<std::thread> workers_;
-  std::queue<task_t>       tasks_;
-  std::condition_variable  cond_;
-  std::mutex               mtx_;
-  bool                     stop_;
+  std::vector<std::thread>          workers_;
+  std::queue<std::function<void()>> tasks_;
+  std::condition_variable           cond_;
+  std::mutex                        mtx_;
+  bool                              stop_;
 };
 
 }  // namespace kata

@@ -17,14 +17,16 @@ struct is_all_same;
 //
 
 template <typename T>
-struct is_all_same<T> : std::true_type {};
+struct is_all_same<T> : std::true_type {
+  ;
+};
 
 template <typename TTarget, typename TCurrent, typename... TRemains>
 struct is_all_same<TTarget, TCurrent, TRemains...>
     : std::conditional_t<std::is_same<TTarget, TCurrent>::value,
                          is_all_same<TTarget, TRemains...>,
                          std::false_type> {
-  //
+  ;
 };
 
 }  // namespace kata

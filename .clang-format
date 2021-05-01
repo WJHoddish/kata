@@ -3,6 +3,7 @@ BasedOnStyle: Google
 AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveDeclarations: Consecutive
+AlignOperands: true
 AlignTrailingComments: true
 BinPackArguments: false
 BinPackParameters: false

@@ -21,7 +21,9 @@ struct type_list<TCurrent, TRemains...> {
 };
 
 template <>
-struct type_list<> {};
+struct type_list<> {
+  ;
+};
 
 }  // namespace kata
 

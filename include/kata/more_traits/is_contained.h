@@ -22,7 +22,7 @@ struct is_contained<TTarget, TCurrent, TRemains...>
     : std::conditional_t<std::is_same<TTarget, TCurrent>::value,
                          std::true_type,
                          is_contained<TTarget, TRemains...> > {
-  //
+  ;
 };
 
 }  // namespace kata

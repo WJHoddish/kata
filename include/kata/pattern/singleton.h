@@ -24,7 +24,9 @@ class Singleton : public Noncopyable {
   }
 
  protected:
-  struct token {};
+  struct token {
+    ;
+  };
 };
 
 }  // namespace kata
