@@ -23,4 +23,5 @@ constexpr std::common_type_t<T, Args...> max(const T x,
 }
 
 }  // namespace gem
+
 #endif  // KATA_MAX_H

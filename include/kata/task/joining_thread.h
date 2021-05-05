@@ -1,7 +1,7 @@
 // Created by Jiaheng on 2021/4/29.
 // Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
-// Automatically-joining thread.
+// Automatically-joining task.
 
 #ifndef KATA_JOINING_THREAD_H
 #define KATA_JOINING_THREAD_H
@@ -31,7 +31,7 @@ class JoiningThread {
   //
 
   JoiningThread& operator=(JoiningThread&& src) noexcept {
-    if (joinable()) join();  // make own thread joined
+    if (joinable()) join();  // make own task joined
     t_ = std::move(src.t_);  // absorb the foreign one
     return *this;
   }

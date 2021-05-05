@@ -1,12 +1,10 @@
 set( TEST_LIST
-        Test
-        TestGem
-        TestMoreTraits
-        TestPattern
-        TestSignalSlot
-        TestThreadPool
+        gem
+        more_traits
+        pattern
+        task
         )
 
 foreach ( target ${TEST_LIST} )
-    my_executable( ${target} gtest gtest_main pthread )
+    gtest_folder( ${target} gtest gtest_main pthread )
 endforeach ()

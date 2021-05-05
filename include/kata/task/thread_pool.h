@@ -53,6 +53,7 @@ class ThreadPool {
       stop_ = true;
     }
 
+    // notify all waiting threads to join
     cond_.notify_all();
     for (std::thread& worker : workers_) worker.join();
   }
@@ -67,10 +68,12 @@ class ThreadPool {
         std::bind(std::forward<F>(f), std::forward<Args>(args)...));
     std::future<R> res = task->get_future();
 
+    // add task to queue
     {
       std::unique_lock<std::mutex> guard(mtx_);
 
       if (stop_) throw;  // enqueue on stopped pool
+
       tasks_.emplace([task]() { (*task)(); });
     }
 

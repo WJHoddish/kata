@@ -15,7 +15,9 @@ struct is_contained;
 //
 
 template <typename T>
-struct is_contained<T> : std::false_type {};
+struct is_contained<T> : std::false_type {
+  ;
+};
 
 template <typename TTarget, typename TCurrent, typename... TRemains>
 struct is_contained<TTarget, TCurrent, TRemains...>

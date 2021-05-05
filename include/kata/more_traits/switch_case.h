@@ -11,27 +11,35 @@ namespace kata {
 
 //
 
-template <std::size_t Tag, typename TCurrent, typename TNext = void>
+template <std::size_t Idx, typename TCurrent, typename TNext = void>
 struct case_ {
-  enum { tag = Tag };
   using type = TCurrent;
   using next = TNext;
+
+  //
+
+  enum { value = Idx };
 };
 
 //
 
-template <std::size_t Tag, typename TCase>
+template <std::size_t Idx, typename TCase>
 struct switch_ {
   using next = typename TCase::next;
-  using type = typename std::conditional_t<Tag == TCase::tag,
+  using type = typename std::conditional_t<Idx == TCase::value,
                                            typename TCase::type,
-                                           typename switch_<Tag, next>::type>;
+                                           typename switch_<Idx, next>::type>;
 };
 
-template <std::size_t Tag>
-struct switch_<Tag, void> {
+template <std::size_t Idx>
+struct switch_<Idx, void> {
   using type = void;
 };
+
+//
+
+template <std::size_t Idx, typename T>
+using switch_t = typename switch_<Idx, T>::type;
 
 }  // namespace kata
 

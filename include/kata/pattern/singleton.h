@@ -32,7 +32,8 @@ class Singleton : public Noncopyable {
 }  // namespace kata
 
 /**
- * Select one command to enable singleton, followed by constructor body...
+ * If a class is designed to be a singleton, it ought not to require any
+ * dependencies while constructing!
  */
 
 #define ENABLE_SINGLETON(class_name)        \
@@ -42,10 +43,5 @@ class Singleton : public Noncopyable {
 #define ENABLE_SINGLETON_TEMPLATE(class_name, ...)       \
   friend class kata::Singleton<class_name<__VA_ARGS__>>; \
   explicit class_name(typename kata::Singleton<class_name<__VA_ARGS__>>::token)
-
-/**
- * If a class is designed to be a singleton, it ought not to require any
- * dependencies while constructing!
- */
 
 #endif  // KATA_SINGLETON_H

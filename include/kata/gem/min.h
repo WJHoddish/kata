@@ -5,7 +5,7 @@
 #ifndef KATA_MIN_H
 #define KATA_MIN_H
 
-#include "max.h"
+#include <type_traits>
 
 namespace gem {
 
@@ -23,4 +23,5 @@ constexpr std::common_type_t<T, Args...> min(const T x,
 }
 
 }  // namespace gem
+
 #endif  // KATA_MIN_H

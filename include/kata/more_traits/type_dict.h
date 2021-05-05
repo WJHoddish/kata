@@ -13,6 +13,11 @@ namespace kata {
 
 namespace type_dict {}
 
+//
+
+template <typename T>
+using type_dict_t = T;
+
 }  // namespace kata
 
 #endif  // KATA_TYPE_DICT_H

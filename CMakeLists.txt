@@ -3,14 +3,18 @@ project( kata )
 
 set( CMAKE_CXX_STANDARD 17 )
 
-include_directories( include )
+include_directories(
+        include
+        test
+)
 
 set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib )
 set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../bin )
 
-function( my_executable name )
-    add_executable( ${name} ${name}.cpp )
+function( gtest_folder name )
+    aux_source_directory( ${name} DIR_${name} )
+    add_executable( ${name} ${DIR_${name}} )
 
     set( INDEX 1 )
     while ( INDEX LESS ${ARGC} )
