@@ -34,3 +34,11 @@ TEST(TestMoreTraits, switch_case) {
   EXPECT_EQ(v1, true);
   EXPECT_EQ(v2, true);
 }
+
+#include "kata/more_traits/type_dict.h"
+
+TEST(TestMoreTraits, type_dict) {
+  using namespace kata;
+
+  //
+}

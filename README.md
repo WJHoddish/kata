@@ -16,6 +16,10 @@
 
 - 检查一个std::tuple，建立一个index数列。其之后将被用于提取tuple中的数值，进而填到其它function中去（kata::fill）。
 
+### type dict
+
+异类词典
+
 ## pattern
 
 设计模式模板
