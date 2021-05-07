@@ -14,8 +14,6 @@ namespace kata {
 template <std::size_t Idx, typename TContainer>
 struct at;
 
-//
-
 template <std::size_t Idx, typename TCurrent, typename... TRemains>
 struct at<Idx, type_list<TCurrent, TRemains...>> {
   using type = typename at<Idx - 1, type_list<TRemains...>>::type;

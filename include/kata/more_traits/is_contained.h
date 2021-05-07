@@ -12,8 +12,6 @@ namespace kata {
 template <typename T, typename... Args>
 struct is_contained;
 
-//
-
 template <typename T>
 struct is_contained<T> : std::false_type {
   ;

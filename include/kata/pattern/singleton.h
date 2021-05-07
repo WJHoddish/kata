@@ -18,7 +18,7 @@ template <typename T>
 class Singleton : public Noncopyable {
  public:
   static T& get() noexcept(std::is_nothrow_constructible<T>::value) {
-    static T _{token()};  ///< instance the unique existence
+    static T _{token()};  ///< instance, the unique existence
 
     return _;
   }
@@ -36,12 +36,12 @@ class Singleton : public Noncopyable {
  * dependencies while constructing!
  */
 
-#define ENABLE_SINGLETON(class_name)        \
-  friend class kata::Singleton<class_name>; \
-  explicit class_name(typename kata::Singleton<class_name>::token)
+#define ENABLE_SINGLETON(class_name)  \
+  friend class Singleton<class_name>; \
+  explicit class_name(typename Singleton<class_name>::token)
 
-#define ENABLE_SINGLETON_TEMPLATE(class_name, ...)       \
-  friend class kata::Singleton<class_name<__VA_ARGS__>>; \
-  explicit class_name(typename kata::Singleton<class_name<__VA_ARGS__>>::token)
+#define ENABLE_SINGLETON_TEMPLATE(class_name, ...) \
+  friend class Singleton<class_name<__VA_ARGS__>>; \
+  explicit class_name(typename Singleton<class_name<__VA_ARGS__>>::token)
 
 #endif  // KATA_SINGLETON_H

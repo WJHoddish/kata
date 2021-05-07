@@ -14,8 +14,6 @@ namespace kata {
 template <typename T, typename... Args>
 struct is_all_same;
 
-//
-
 template <typename T>
 struct is_all_same<T> : std::true_type {
   ;

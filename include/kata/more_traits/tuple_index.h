@@ -21,8 +21,6 @@ struct tuple_index {
 template <std::size_t Idx, typename T = tuple_index<>>
 struct tuple_index_builder;
 
-//
-
 template <std::size_t Idx, std::size_t... Idxes>
 struct tuple_index_builder<Idx, tuple_index<Idxes...>>
     : public tuple_index_builder<Idx - 1,

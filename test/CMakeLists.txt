@@ -1,4 +1,6 @@
 set( TEST_LIST
+        container
+        controller
         gem
         more_traits
         pattern

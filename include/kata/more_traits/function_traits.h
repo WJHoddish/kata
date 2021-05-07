@@ -14,14 +14,10 @@ namespace kata {
 template <typename T>
 struct function_traits;
 
-//
-
 template <typename R, typename... Args>
 struct function_traits<R(Args...)> {
   template <std::size_t Idx>
-  using arg_type = at_t<Idx - 1, Args...>;
-  using tup_type =
-      std::tuple<std::remove_cv_t<std::remove_reference_t<Args>>...>;
+  using arg_type    = at_t<Idx - 1, Args...>;
   using return_type = R;
   using args        = type_list<Args...>;
 

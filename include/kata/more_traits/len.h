@@ -14,8 +14,6 @@ namespace kata {
 template <typename T = type_list<>>
 struct len;
 
-//
-
 template <typename... Args>
 struct len<type_list<Args...>> {
   enum { value = sizeof...(Args) };
