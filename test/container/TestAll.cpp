@@ -4,6 +4,8 @@
 
 #include <gtest/gtest.h>
 
+#include "kata/container/any.h"
+
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

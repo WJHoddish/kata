@@ -17,13 +17,7 @@
       std::cout << #class_name "(&&)" << std::endl;                           \
     }                                                                         \
     ~class_name() { std::cout << "~" #class_name "()" << std::endl; }         \
-    friend std::ostream &operator<<(std::ostream &os, const class_name &src); \
-  };                                                                          \
-                                                                              \
-  std::ostream &operator<<(std::ostream &os, const class_name &src) {         \
-    os << #class_name " at " << &src;                                         \
-    return os;                                                                \
-  }
+  };
 
 CLASS(A)
 CLASS(B)
