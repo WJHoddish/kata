@@ -6,11 +6,10 @@
 #include <Test.h>
 
 #include "kata/container/type_dict.h"
-#include "kata/for_each.h"
 
 struct Weight;
 
-using FParams = kata::TypeDict<struct A, struct B, struct Weight>;
+using FParams = kata::TypeDict<A, B, Weight>;
 
 template <typename T>
 auto func(const T& tp) {

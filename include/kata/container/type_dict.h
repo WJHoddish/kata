@@ -14,7 +14,7 @@ namespace kata {
 
 //
 
-namespace type_dict {
+namespace _type_dict {
 
 //
 
@@ -53,7 +53,7 @@ using default_tuple_type_t = typename default_tuple_type<N, TContainer>::type;
 template <typename TTarget,
           std::size_t N,
           /**
-           * Remove current type if it's not target.
+           * Remove current type if it's NOT target.
            */
           typename TCurrent,
           typename... TRemains>
@@ -142,7 +142,7 @@ struct id_2_type;
 
 template <std::size_t N, typename TCurrent, typename... TRemains>
 struct id_2_type<N, TCurrent, TRemains...> {
-  using type = typename std::conditional_t<N == 0,
+  using type = typename std::conditional_t<(N == 0),
                                            identity<TCurrent>,
                                            id_2_type<N - 1, TRemains...>>::type;
 };
@@ -152,7 +152,7 @@ struct id_2_type<N, TCurrent, TRemains...> {
 template <std::size_t N, typename... TRemains>
 using id_2_type_t = typename id_2_type<N, TRemains...>::type;
 
-}  // namespace type_dict
+}  // namespace _type_dict
 
 //
 
@@ -160,7 +160,7 @@ template <typename... TKeys>
 class TypeDict {
  public:
   static auto Create() {
-    return type_dict::default_tuple_type_t<sizeof...(TKeys), Values>{};
+    return _type_dict::default_tuple_type_t<sizeof...(TKeys), Values>{};
   }
 
  private:
@@ -185,7 +185,7 @@ class TypeDict {
                */
               typename TVal>
     auto set(TVal&& val) && {
-      using namespace type_dict;
+      using namespace _type_dict;  // local namespace
 
       using TRaw                      = std::decay_t<TVal>;
       constexpr static std::size_t id = type_2_id<TKey, 0, TKeys...>::value;
@@ -201,7 +201,7 @@ class TypeDict {
 
     template <typename TKey>
     auto& get() const {
-      using namespace type_dict;
+      using namespace _type_dict;  // local namespace
 
       constexpr static std::size_t id = type_2_id<TKey, 0, TKeys...>::value;
 
