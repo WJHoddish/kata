@@ -1,7 +1,7 @@
 // Created by Jiaheng on 2021/4/29.
 // Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
-// Calculate factorial.
+// Factorial.
 
 #ifndef KATA_FACTORIAL_H
 #define KATA_FACTORIAL_H

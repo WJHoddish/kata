@@ -4,10 +4,6 @@
 
 #include <gtest/gtest.h>
 
-#include "kata/container/intrusive_ptr.h"
-
-TEST(TestContainer, intrusive_ptr) {}
-
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

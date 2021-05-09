@@ -13,22 +13,24 @@ namespace kata {
 //
 
 class JoiningThread {
+  std::thread t_;  ///< thread
+
  public:
   template <typename F, typename... Args>
   explicit JoiningThread(F&& func, Args&&... args)
-      : t_(std::forward<F>(func), std::forward<Args>(args)...) {}
-
-  explicit JoiningThread(std::thread t)
-      : t_(std::move(t)) {}
-
-  JoiningThread(JoiningThread&& src) noexcept
-      : t_(std::move(src.t_)) {}
-
-  ~JoiningThread() {
-    if (joinable()) join();  // RAII
+      : t_(std::forward<F>(func), std::forward<Args>(args)...) {
+    ;
   }
 
-  //
+  explicit JoiningThread(std::thread t)
+      : t_(std::move(t)) {
+    ;
+  }
+
+  JoiningThread(JoiningThread&& src) noexcept
+      : t_(std::move(src.t_)) {
+    ;
+  }
 
   JoiningThread& operator=(JoiningThread&& src) noexcept {
     if (joinable()) join();  // make own task joined
@@ -42,6 +44,10 @@ class JoiningThread {
     return *this;
   }
 
+  ~JoiningThread() {
+    if (joinable()) join();  // RAII
+  }
+
   //
 
   void swap(JoiningThread&& src) { t_.swap(src.t_); }
@@ -53,9 +59,6 @@ class JoiningThread {
   void detach() { t_.detach(); }
 
   std::thread::id get_id() { return t_.get_id(); }
-
- private:
-  std::thread t_;
 };
 
 }  // namespace kata

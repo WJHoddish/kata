@@ -17,6 +17,12 @@ namespace kata {
 //
 
 class ThreadPool {
+  std::vector<std::thread>          workers_;
+  std::queue<std::function<void()>> tasks_;
+  std::condition_variable           cond_;
+  std::mutex                        mtx_;
+  bool                              stop_;
+
  public:
   explicit ThreadPool(std::size_t n = std::thread::hardware_concurrency())
       : stop_(false) {
@@ -71,22 +77,13 @@ class ThreadPool {
     // add task to queue
     {
       std::unique_lock<std::mutex> guard(mtx_);
-
       if (stop_) throw;  // enqueue on stopped pool
-
       tasks_.emplace([task]() { (*task)(); });
     }
 
     cond_.notify_one();
     return res;
   }
-
- private:
-  std::vector<std::thread>          workers_;
-  std::queue<std::function<void()>> tasks_;
-  std::condition_variable           cond_;
-  std::mutex                        mtx_;
-  bool                              stop_;
 };
 
 }  // namespace kata

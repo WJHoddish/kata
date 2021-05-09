@@ -12,22 +12,16 @@ namespace kata {
 
 //
 
-namespace _fill {
-
-//
-
 template <typename F, typename... Args, std::size_t... Idxes>
-auto fill(F&& f, std::tuple<Args...>&& tp, tuple_index<Idxes...>) {
+auto fill_helper(F&& f, std::tuple<Args...>&& tp, tuple_index<Idxes...>) {
   return f(std::get<Idxes>(tp)...);
 }
-
-}  // namespace _fill
 
 //
 
 template <typename F, typename... Args>
 auto fill(F&& f, std::tuple<Args...>&& tp) {
-  return _fill::fill(f,
+  return fill_helper(f,
                      std::forward<typename std::tuple<Args...>>(tp),
                      tuple_index_t<Args...>());
 }

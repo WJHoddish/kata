@@ -15,6 +15,7 @@ template <std::size_t Idx, typename TCurrent, typename TNext = void>
 struct case_ {
   using type = TCurrent;
   using next = TNext;
+
   enum { value = Idx };
 };
 

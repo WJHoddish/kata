@@ -14,10 +14,6 @@ namespace kata {
 
 //
 
-namespace _type_dict {
-
-//
-
 template <std::size_t N,
           template <typename...>
           class TContainer,
@@ -152,15 +148,17 @@ struct id_2_type<N, TCurrent, TRemains...> {
 template <std::size_t N, typename... TRemains>
 using id_2_type_t = typename id_2_type<N, TRemains...>::type;
 
-}  // namespace _type_dict
-
 //
 
+/**
+ *
+ * @tparam TKeys
+ */
 template <typename... TKeys>
 class TypeDict {
  public:
   static auto Create() {
-    return _type_dict::default_tuple_type_t<sizeof...(TKeys), Values>{};
+    return default_tuple_type_t<sizeof...(TKeys), Values>{};
   }
 
  private:
@@ -185,8 +183,6 @@ class TypeDict {
                */
               typename TVal>
     auto set(TVal&& val) && {
-      using namespace _type_dict;  // local namespace
-
       using TRaw                      = std::decay_t<TVal>;
       constexpr static std::size_t id = type_2_id<TKey, 0, TKeys...>::value;
 
@@ -201,10 +197,7 @@ class TypeDict {
 
     template <typename TKey>
     auto& get() const {
-      using namespace _type_dict;  // local namespace
-
       constexpr static std::size_t id = type_2_id<TKey, 0, TKeys...>::value;
-
       return *static_cast<id_2_type_t<id, Args...>*>(tuple_[id].get());
     }
   };

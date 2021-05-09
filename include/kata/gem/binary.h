@@ -1,7 +1,7 @@
 // Created by Jiaheng on 2021/4/29.
 // Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
-// Understand input as a binary number and convert it to decimal integer.
+// Understand input as a binary number, and convert it as decimal integer.
 
 #ifndef KATA_BINARY_H
 #define KATA_BINARY_H

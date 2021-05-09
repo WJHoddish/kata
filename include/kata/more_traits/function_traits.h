@@ -20,6 +20,7 @@ struct function_traits<R(Args...)> {
   using arg_type    = at_t<Idx - 1, Args...>;
   using return_type = R;
   using args        = type_list<Args...>;
+
   enum { arity = sizeof...(Args) };
 };
 
