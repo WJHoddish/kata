@@ -12,8 +12,6 @@ namespace kata {
 template <typename...>
 struct type_list;
 
-//
-
 template <typename TCurrent, typename... TRemains>
 struct type_list<TCurrent, TRemains...> {
   using type = TCurrent;

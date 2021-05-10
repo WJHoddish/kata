@@ -95,7 +95,7 @@ struct new_tuple_type<TTarget,
                                        N,
                                        M + 1,
                                        /**
-                                        * Archive current type.
+                                        * Archive original types.
                                         */
                                        TContainer<TArchives..., TCurrent>,
                                        TRemains...>::type;
@@ -150,57 +150,56 @@ using id_2_type_t = typename id_2_type<N, TRemains...>::type;
 
 //
 
-/**
- *
- * @tparam TKeys
- */
 template <typename... TKeys>
 class TypeDict {
- public:
-  static auto Create() {
-    return default_tuple_type_t<sizeof...(TKeys), Values>{};
-  }
-
- private:
   template <typename... Args>
   struct Values {
-    std::shared_ptr<void> tuple_[sizeof...(Args)];
-
-    //
+    std::shared_ptr<void> m_tuple[sizeof...(Args)];
 
     Values() = default;
 
     explicit Values(std::shared_ptr<void>(&&input)[sizeof...(Args)]) {
       for (std::size_t i = 0; i < sizeof...(Args); ++i)
-        tuple_[i] = std::move(input[i]);
+        m_tuple[i] = std::move(input[i]);
     }
 
-    //
-
-    template <typename TKey,
-              /**
-               * By default, value type is deducted by the passed-in variable.
-               */
-              typename TVal>
+    /**
+     *
+     * @tparam TKey
+     * @tparam TVal By default, value type is auto-deducted.
+     * @param val
+     * @return
+     */
+    template <typename TKey, typename TVal>
     auto set(TVal&& val) && {
       using TRaw                      = std::decay_t<TVal>;
       constexpr static std::size_t id = type_2_id<TKey, 0, TKeys...>::value;
 
       // replace the original void pointer
-      tuple_[id] = std::shared_ptr<void>(
+      m_tuple[id] = std::shared_ptr<void>(
           new TRaw(std::forward<TVal>(val)),
           [](void* ptr) { delete static_cast<TRaw*>(ptr); });
 
       // reclaim tuple type after new value being registered
-      return new_tuple_type_t<TRaw, id, Values<>, Args...>(std::move(tuple_));
+      return new_tuple_type_t<TRaw, id, Values<>, Args...>(std::move(m_tuple));
     }
 
+    /**
+     *
+     * @tparam TKey
+     * @return
+     */
     template <typename TKey>
     auto& get() const {
       constexpr static std::size_t id = type_2_id<TKey, 0, TKeys...>::value;
-      return *static_cast<id_2_type_t<id, Args...>*>(tuple_[id].get());
+      return *static_cast<id_2_type_t<id, Args...>*>(m_tuple[id].get());
     }
   };
+
+ public:
+  static auto Create() {
+    return default_tuple_type_t<sizeof...(TKeys), Values>{};
+  }
 };
 
 }  // namespace kata

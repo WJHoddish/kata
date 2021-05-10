@@ -47,7 +47,7 @@ class ThreadPool {
           // run task
           task();
         }
-      }  ///< thread function
+      }  ///< thread function (loop)
       );
     }
   }
@@ -69,7 +69,7 @@ class ThreadPool {
   template <class F,
             class... Args,
             typename R = typename std::result_of<F(Args...)>::type>
-  std::future<R> enqueue(F&& f, Args&&... args) {
+  std::future<R> Enqueue(F&& f, Args&&... args) {
     auto task = std::make_shared<std::packaged_task<R()>>(
         std::bind(std::forward<F>(f), std::forward<Args>(args)...));
     std::future<R> res = task->get_future();
@@ -77,7 +77,8 @@ class ThreadPool {
     // add task to queue
     {
       std::unique_lock<std::mutex> guard(mtx_);
-      if (stop_) throw;  // enqueue on stopped pool
+
+      if (stop_) throw;  // error: enqueue on stopped pool
       tasks_.emplace([task]() { (*task)(); });
     }
 

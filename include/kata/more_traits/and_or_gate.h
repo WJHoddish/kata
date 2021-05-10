@@ -10,18 +10,18 @@ namespace kata {
 //
 
 template <typename T, bool X>
-constexpr static bool or_ = true;
-
-template <typename T>
-constexpr static bool or_<T, false> = T::value;
-
-//
-
-template <typename T, bool X>
 constexpr static bool and_ = false;
 
 template <typename T>
 constexpr static bool and_<T, true> = T::value;
+
+//
+
+template <typename T, bool X>
+constexpr static bool or_ = true;
+
+template <typename T>
+constexpr static bool or_<T, false> = T::value;
 
 }  // namespace kata
 

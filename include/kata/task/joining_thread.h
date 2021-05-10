@@ -13,34 +13,34 @@ namespace kata {
 //
 
 class JoiningThread {
-  std::thread t_;  ///< thread
+  std::thread m_t;  ///< C++11 thread
 
  public:
   template <typename F, typename... Args>
   explicit JoiningThread(F&& func, Args&&... args)
-      : t_(std::forward<F>(func), std::forward<Args>(args)...) {
+      : m_t(std::forward<F>(func), std::forward<Args>(args)...) {
     ;
   }
 
   explicit JoiningThread(std::thread t)
-      : t_(std::move(t)) {
+      : m_t(std::move(t)) {
     ;
   }
 
   JoiningThread(JoiningThread&& src) noexcept
-      : t_(std::move(src.t_)) {
+      : m_t(std::move(src.m_t)) {
     ;
   }
 
-  JoiningThread& operator=(JoiningThread&& src) noexcept {
-    if (joinable()) join();  // make own task joined
-    t_ = std::move(src.t_);  // absorb the foreign one
+  JoiningThread& operator=(JoiningThread&& rhs) noexcept {
+    if (joinable()) join();    // make own task joined
+    m_t = std::move(rhs.m_t);  // absorb the foreign one
     return *this;
   }
 
   JoiningThread& operator=(std::thread&& t) noexcept {
     if (joinable()) join();
-    t_ = std::move(t);
+    m_t = std::move(t);
     return *this;
   }
 
@@ -50,15 +50,15 @@ class JoiningThread {
 
   //
 
-  void swap(JoiningThread&& src) { t_.swap(src.t_); }
+  void swap(JoiningThread&& src) { m_t.swap(src.m_t); }
 
-  bool joinable() const noexcept { return t_.joinable(); }
+  bool joinable() const noexcept { return m_t.joinable(); }
 
-  void join() { t_.join(); }
+  void join() { m_t.join(); }
 
-  void detach() { t_.detach(); }
+  void detach() { m_t.detach(); }
 
-  std::thread::id get_id() { return t_.get_id(); }
+  std::thread::id get_id() { return m_t.get_id(); }
 };
 
 }  // namespace kata

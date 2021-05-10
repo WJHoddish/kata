@@ -16,32 +16,30 @@ namespace kata {
 
 template <typename T>
 class Singleton : public Noncopyable {
- public:
-  static T& get() noexcept(std::is_nothrow_constructible<T>::value) {
-    static T _{token()};  ///< instance, the unique existence
-
-    return _;
-  }
-
  protected:
   struct token {
     ;
   };
+
+ public:
+  static T& get() noexcept(std::is_nothrow_constructible<T>::value) {
+    static T _{token()};
+
+    return _;
+  }
 };
 
 }  // namespace kata
 
 /**
  * If a class is designed to be a singleton, it ought not to require any
- * dependencies while constructing!
+ * run-time dependencies while constructing!
  */
 
-#define ENABLE_SINGLETON(class_name)  \
-  friend class Singleton<class_name>; \
+#define KATA_ENABLE_SINGLETON(class_name) \
   explicit class_name(typename Singleton<class_name>::token)
 
-#define ENABLE_SINGLETON_TEMPLATE(class_name, ...) \
-  friend class Singleton<class_name<__VA_ARGS__>>; \
+#define KATA_ENABLE_SINGLETON_TEMPLATE(class_name, ...) \
   explicit class_name(typename Singleton<class_name<__VA_ARGS__>>::token)
 
 #endif  // KATA_SINGLETON_H

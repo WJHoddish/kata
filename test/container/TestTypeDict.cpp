@@ -7,9 +7,12 @@
 
 #include "kata/container/type_dict.h"
 
+struct A;
+struct B;
+struct C;
 struct Weight;
 
-using FParams = kata::TypeDict<A, B, Weight>;
+using FParams = kata::TypeDict<A, B, C, Weight>;
 
 template <typename T>
 auto func(const T& tp) {
@@ -17,12 +20,18 @@ auto func(const T& tp) {
   auto b      = tp.template get<B>();
   auto weight = tp.template get<Weight>();
 
-  print(a, b, weight);
+  (*(tp.template get<C>()))++;  // pass as pointer
 
   return a * weight + b * (1 - weight);
 }
 
 TEST(TestContainer, type_dict) {
-  EXPECT_EQ(func(FParams::Create().set<A>(1.3).set<B>(2.4).set<Weight>(0.1)),
-            2.29);
+  int i = 0;
+
+  EXPECT_EQ(
+      func(FParams::Create().set<A>(1.3).set<B>(2.4).set<Weight>(0.1).set<C>(
+          &i)),
+      2.29);
+
+  EXPECT_EQ(i, 1);
 }

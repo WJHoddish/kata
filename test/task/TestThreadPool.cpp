@@ -13,7 +13,7 @@ TEST(TestTask, thread_pool) {
 
   {
     auto pool = ThreadPool();
-    for (int i = 0; i < 100; ++i) pool.enqueue(func, 0, i);
+    for (int i = 0; i < 100; ++i) pool.Enqueue(func, 0, i);
   }
 
   EXPECT_EQ(var, 4950);
