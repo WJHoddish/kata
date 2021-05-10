@@ -10,15 +10,15 @@
 struct A;
 struct B;
 struct C;
-struct Weight;
+struct W;  // weight
 
-using FParams = kata::TypeDict<A, B, C, Weight>;
+using FParams = kata::TypeDict<A, B, W, C>;
 
 template <typename T>
 auto func(const T& tp) {
   auto a      = tp.template get<A>();
   auto b      = tp.template get<B>();
-  auto weight = tp.template get<Weight>();
+  auto weight = tp.template get<W>();
 
   (*(tp.template get<C>()))++;  // pass as pointer
 
@@ -29,8 +29,7 @@ TEST(TestContainer, type_dict) {
   int i = 0;
 
   EXPECT_EQ(
-      func(FParams::Create().set<A>(1.3).set<B>(2.4).set<Weight>(0.1).set<C>(
-          &i)),
+      func(FParams::Create().set<A>(1.3).set<B>(2.4).set<W>(0.1).set<C>(&i)),
       2.29);
 
   EXPECT_EQ(i, 1);

@@ -15,7 +15,7 @@ struct TimeElapsedAspect {
 struct LoggingAspect {
   void Before(int i) { std::cout << "Logging before" << std::endl; }
 
-  //  void Future(int i) { std::cout << "Logging future" << std::endl; }
+  void Future(int i) { std::cout << "Logging future" << std::endl; }
 };
 
 void foo(int a) { std::cout << "foo" << std::endl; }

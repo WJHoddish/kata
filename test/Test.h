@@ -8,7 +8,7 @@
 
 #include <Print.h>
 
-#define CLASS(class_name)                                                  \
+#define CLASS_FUNCTION(class_name)                                         \
  public:                                                                   \
   class_name() { std::cout << #class_name "()" << std::endl; }             \
   class_name(class_name&) { std::cout << #class_name "(&)" << std::endl; } \
@@ -16,6 +16,15 @@
     std::cout << #class_name "(&&)" << std::endl;                          \
   }                                                                        \
   ~class_name() { std::cout << "~" #class_name "()" << std::endl; }
+
+#define CLASS(class_name)      \
+  class class_name {           \
+    CLASS_FUNCTION(class_name) \
+  };
+
+CLASS(A)
+CLASS(B)
+CLASS(C)
 
 #define DELETE(p) \
   if (p) {        \

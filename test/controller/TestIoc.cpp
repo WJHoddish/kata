@@ -13,7 +13,7 @@ struct Base {
 };
 
 struct DerivedB : public Base {
-  CLASS(DerivedB)
+  CLASS_FUNCTION(DerivedB)
 
   void Run() override { std::cout << "DerivedB::Run()" << std::endl; }
 };
@@ -29,14 +29,14 @@ struct DerivedC : public Base {
   int m_data;
 };
 
-struct A {
-  explicit A(Base* p)
+struct D {
+  explicit D(Base* p)
       : m_p(p) {
-    print("A(Base*)");
+    print("D(Base*)");
   }
 
-  ~A() {
-    print("~A()");
+  ~D() {
+    print("~D()");
 
     DELETE(m_p)
   }
@@ -51,13 +51,13 @@ TEST(TestController, ioc) {
 
   Ioc ioc;
 
-  ioc.RegisterType<A, DerivedB>("B");
-  auto b = ioc.ResolveShared<A>("B");
+  ioc.RegisterType<D, DerivedB>("B");
+  auto b = ioc.ResolveShared<D>("B");
 
   b->Run();
 
-  ioc.RegisterType<A, DerivedC, int>("C");
-  auto c = ioc.ResolveShared<A>("C", 99);
+  ioc.RegisterType<D, DerivedC, int>("C");
+  auto c = ioc.ResolveShared<D>("C", 99);
 
   c->Run();
 }

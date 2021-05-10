@@ -12,7 +12,7 @@ namespace kata {
 
 class D : public Singleton<D> {
  public:
-  ENABLE_SINGLETON(D)
+  KATA_ENABLE_SINGLETON(D)
       : data(6) {}
 
   int data;
