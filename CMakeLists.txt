@@ -5,18 +5,17 @@ set( CMAKE_CXX_STANDARD 17 )
 
 include_directories(
         include
-        test
 )
 
 set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib )
 set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../lib )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../bin )
 
-function( gtest_folder name )
+function( gtest_folder name main )
     aux_source_directory( ${name} DIR_${name} )
-    add_executable( ${name} ${DIR_${name}} )
+    add_executable( ${name} ${main} ${DIR_${name}} )
 
-    set( INDEX 1 )
+    set( INDEX 2 )
     while ( INDEX LESS ${ARGC} )
         target_link_libraries( ${name} ${ARGV${INDEX}} )
         math( EXPR INDEX "${INDEX} + 1" )

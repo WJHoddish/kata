@@ -1,10 +1,11 @@
 # Generated from CLion C/C++ Code Style settings
 BasedOnStyle: Google
 AlignAfterOpenBracket: Align
-AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveAssignments: AcrossComments
 AlignConsecutiveDeclarations: Consecutive
 AlignOperands: true
 AlignTrailingComments: true
+AllowAllParametersOfDeclarationOnNextLine: false
 BinPackArguments: false
 BinPackParameters: false
 BreakConstructorInitializersBeforeComma: true

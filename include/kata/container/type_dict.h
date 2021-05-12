@@ -1,6 +1,7 @@
 // Created by Jiaheng on 2021/5/7.
 // Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
+// Variadic-Type Dictionary (VTD), a frequently-used function arguments wrapper.
 
 #ifndef KATA_TYPE_DICT_H
 #define KATA_TYPE_DICT_H
@@ -23,15 +24,10 @@ struct default_tuple_type {
     ;
   };
 
-  using type =
-      typename default_tuple_type<N - 1,
-                                  TContainer,
-                                  /**
-                                   * Add a dummy type to the list, eventually
-                                   * wrapped by a type container.
-                                   */
-                                  Dummy,
-                                  TDummies...>::type;
+  using type = typename default_tuple_type<N - 1,
+                                           TContainer,
+                                           Dummy,  // add N dummy types
+                                           TDummies...>::type;
 };
 
 template <template <typename...> class TContainer, typename... TDummies>
@@ -48,10 +44,7 @@ using default_tuple_type_t = typename default_tuple_type<N, TContainer>::type;
 
 template <typename TTarget,
           std::size_t N,
-          /**
-           * Remove current type if it's NOT target.
-           */
-          typename TCurrent,
+          typename TCurrent,  // filter current type
           typename... TRemains>
 struct type_2_id {
   enum { value = type_2_id<TTarget, N + 1, TRemains...>::value };
@@ -60,10 +53,7 @@ struct type_2_id {
 template <typename TTarget, std::size_t N, typename... TRemains>
 struct type_2_id<TTarget,
                  N,
-                 /**
-                  * Successful match: target type & current type.
-                  */
-                 TTarget,
+                 TTarget,  // current type is target type
                  TRemains...> {
   enum { value = N };
 };
@@ -94,10 +84,9 @@ struct new_tuple_type<TTarget,
   using type = typename new_tuple_type<TTarget,
                                        N,
                                        M + 1,
-                                       /**
-                                        * Archive original types.
-                                        */
-                                       TContainer<TArchives..., TCurrent>,
+                                       TContainer<TArchives...,
+                                                  TCurrent  // archive type
+                                                  >,
                                        TRemains...>::type;
 };
 
@@ -115,10 +104,7 @@ struct new_tuple_type<TTarget,
                       TCurrent,
                       TRemains...> {
   using type = TContainer<TArchives...,
-                          /**
-                           * Put target type at a certain position.
-                           */
-                          TTarget,
+                          TTarget,  // inject the new type
                           TRemains...>;
 };
 
@@ -153,9 +139,10 @@ using id_2_type_t = typename id_2_type<N, TRemains...>::type;
 template <typename... TKeys>
 class TypeDict {
   template <typename... Args>
-  struct Values {
+  class Values {
     std::shared_ptr<void> m_tuple[sizeof...(Args)];
 
+   public:
     Values() = default;
 
     explicit Values(std::shared_ptr<void>(&&input)[sizeof...(Args)]) {
@@ -166,19 +153,19 @@ class TypeDict {
     /**
      *
      * @tparam TKey
-     * @tparam TVal By default, value type is auto-deducted.
+     * @tparam TVal
+     * @tparam TRaw
      * @param val
      * @return
      */
-    template <typename TKey, typename TVal>
+    template <typename TKey, typename TVal, typename TRaw = std::decay_t<TVal>>
     auto set(TVal&& val) && {
-      using TRaw                      = std::decay_t<TVal>;
-      constexpr static std::size_t id = type_2_id<TKey, 0, TKeys...>::value;
-
       // replace the original void pointer
-      m_tuple[id] = std::shared_ptr<void>(
+      constexpr static std::size_t id = type_2_id<TKey, 0, TKeys...>::value;
+      m_tuple[id]                     = std::shared_ptr<void>(
           new TRaw(std::forward<TVal>(val)),
-          [](void* ptr) { delete static_cast<TRaw*>(ptr); });
+          [](void* p) { delete static_cast<TRaw*>(p); }  // deleter
+      );
 
       // reclaim tuple type after new value being registered
       return new_tuple_type_t<TRaw, id, Values<>, Args...>(std::move(m_tuple));

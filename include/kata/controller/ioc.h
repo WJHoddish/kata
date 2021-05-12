@@ -1,7 +1,7 @@
 // Created by Jiaheng on 2021/5/10.
 // Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
-// Inversion of Control.
+// Inversion of Control (IoC), the programming principle.
 
 #ifndef KATA_IOC_H
 #define KATA_IOC_H
@@ -22,19 +22,6 @@ namespace kata {
 class Ioc : public Noncopyable {
   std::unordered_map<std::string, std::any> m_creators;
 
- public:
-  template <class TA, typename TB, typename... Args>
-  auto RegisterType(const std::string& key)
-      -> std::enable_if_t<!std::is_base_of<TA, TB>::value, void> {
-    // ban duplicated keys
-    if (m_creators.find(key) != m_creators.end())
-      throw std::invalid_argument("");
-
-    // register constructor into dictionary
-    m_creators.emplace(
-        key, to_function([](Args... args) { return new TA(new TB(args...)); }));
-  }
-
   template <class T, typename... Args>
   T* Resolve(const std::string& key, Args... args) {
     return m_creators.find(key) == m_creators.end()
@@ -43,8 +30,37 @@ class Ioc : public Noncopyable {
                      std::any(m_creators[key]))(args...);
   }
 
+ public:
+  /**
+   * Types should not have derived relation.
+   * @tparam TA
+   * @tparam TB
+   * @tparam Args
+   * @param key
+   * @return
+   */
+  template <class TA, typename TB, typename... Args>
+  auto RegisterType(const std::string& key)
+      -> std::enable_if_t<!std::is_base_of<TA, TB>::value &&
+                          !std::is_base_of<TB, TA>::value> {
+    // ban duplicated keys
+    if (m_creators.find(key) != m_creators.end()) throw;
+
+    // register constructor into dictionary
+    m_creators.emplace(
+        key, to_function([](Args... args) { return new TA(new TB(args...)); }));
+  }
+
+  /**
+   * Get an instance.
+   * @tparam T
+   * @tparam Args
+   * @param key
+   * @param args
+   * @return
+   */
   template <class T, typename... Args>
-  std::shared_ptr<T> ResolveShared(const std::string& key, Args... args) {
+  auto ResolveShared(const std::string& key, Args... args) {
     return std::shared_ptr<T>(Resolve<T>(key, args...));
   }
 };

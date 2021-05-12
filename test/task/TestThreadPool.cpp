@@ -1,10 +1,19 @@
-// Created by Jiaheng on 2021/5/2.
-// Copyright (c) 2021 Jiaheng Wang All rights reserved.
+// Created by Jiaheng on 2021/5/12.
+// Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
 
-#include "TestThreadPool.h"
+#include <gtest/gtest.h>
 
-#include <Test.h>
+#include <atomic>
+#include <thread>
+
+static std::atomic<std::size_t> var = 0;
+
+static void func(std::size_t m, std::size_t n) {
+  var += n;
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+}
 
 #include "kata/task/thread_pool.h"
 

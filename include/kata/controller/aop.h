@@ -1,6 +1,7 @@
 // Created by Jiaheng on 2021/5/10.
 // Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
+// Aspect-Oriented Programming (AOP), the programming paradigm.
 
 #ifndef KATA_AOP_H
 #define KATA_AOP_H
@@ -24,90 +25,98 @@
     };                                                                   \
   };
 
-KATA_AOP_MEMBER(Kernel)
 KATA_AOP_MEMBER(Before)
 KATA_AOP_MEMBER(Future)
+
+//
+
+#define KATA_AOP_BOTH(x)                                   \
+  std::enable_if_t<has_member_Before<x, Args...>::value && \
+                   has_member_Future<x, Args...>::value>  // SFINAE
+
+#define KATA_AOP_ONLY_BEFORE(x)                            \
+  std::enable_if_t<has_member_Before<x, Args...>::value && \
+                   !has_member_Future<x, Args...>::value>
+
+#define KATA_AOP_ONLY_FUTURE(x)                             \
+  std::enable_if_t<!has_member_Before<x, Args...>::value && \
+                   has_member_Future<x, Args...>::value>
+
+//
 
 namespace kata {
 
 //
 
 template <typename F, typename... Args>
-struct Aop : Noncopyable {
-  F m_f;
+class Aop : public Noncopyable {
+  F m_func;  ///< kernel function
 
-  explicit Aop(F&& f)
-      : m_f(std::forward<F>(f)) {
+ public:
+  explicit Aop(F&& func)
+      : m_func(std::forward<F>(func)) {
     ;
   }
 
+  //
+
   template <typename TCurrent, typename... TRemains>
-  typename std::enable_if<has_member_Before<TCurrent, Args...>::value &&
-                          has_member_Future<TCurrent, Args...>::value>::type
-  Invoke(Args&&... args,
-         TCurrent&& current_aspect,
-         TRemains&&... remains_aspect) {
-    current_aspect.Before(std::forward<Args>(args)...);
-    Invoke(std::forward<Args>(args)...,
-           std::forward<TRemains>(remains_aspect)...);
-    current_aspect.Future(std::forward<Args>(args)...);
+  auto Invoke(Args&&... args, TCurrent&& current, TRemains&&... remains)
+      -> KATA_AOP_BOTH(TCurrent) {
+    current.Before(std::forward<Args>(args)...);
+    Invoke(std::forward<Args>(args)..., std::forward<TRemains>(remains)...);
+    current.Future(std::forward<Args>(args)...);
   }
 
   template <typename TCurrent, typename... TRemains>
-  typename std::enable_if<!has_member_Before<TCurrent, Args...>::value &&
-                          has_member_Future<TCurrent, Args...>::value>::type
-  Invoke(Args&&... args,
-         TCurrent&& current_aspect,
-         TRemains&&... remains_aspect) {
-    Invoke(std::forward<Args>(args)...,
-           std::forward<TRemains>(remains_aspect)...);
-    current_aspect.Future(std::forward<Args>(args)...);
+  auto Invoke(Args&&... args, TCurrent&& current, TRemains&&... remains)
+      -> KATA_AOP_ONLY_BEFORE(TCurrent) {
+    current.Before(std::forward<Args>(args)...);
+    Invoke(std::forward<Args>(args)..., std::forward<TRemains>(remains)...);
   }
 
   template <typename TCurrent, typename... TRemains>
-  typename std::enable_if<has_member_Before<TCurrent, Args...>::value &&
-                          !has_member_Future<TCurrent, Args...>::value>::type
-  Invoke(Args&&... args,
-         TCurrent&& current_aspect,
-         TRemains&&... remains_aspect) {
-    current_aspect.Before(std::forward<Args>(args)...);
-    Invoke(std::forward<Args>(args)...,
-           std::forward<TRemains>(remains_aspect)...);
+  auto Invoke(Args&&... args, TCurrent&& current, TRemains&&... remains)
+      -> KATA_AOP_ONLY_FUTURE(TCurrent) {
+    Invoke(std::forward<Args>(args)..., std::forward<TRemains>(remains)...);
+    current.Future(std::forward<Args>(args)...);
   }
 
   //
 
   template <typename T>
-  typename std::enable_if<has_member_Before<T, Args...>::value &&
-                          has_member_Future<T, Args...>::value>::type
-  Invoke(Args&&... args, T&& aspect) {
+  auto Invoke(Args&&... args, T&& aspect) -> KATA_AOP_BOTH(T) {
     aspect.Before(std::forward<Args>(args)...);
-    m_f(std::forward<Args>(args)...);
+    m_func(std::forward<Args>(args)...);
     aspect.Future(std::forward<Args>(args)...);
   }
 
   template <typename T>
-  typename std::enable_if<has_member_Before<T, Args...>::value &&
-                          !has_member_Future<T, Args...>::value>::type
-  Invoke(Args&&... args, T&& aspect) {
+  auto Invoke(Args&&... args, T&& aspect) -> KATA_AOP_ONLY_BEFORE(T) {
     aspect.Before(std::forward<Args>(args)...);
-    m_f(std::forward<Args>(args)...);
+    m_func(std::forward<Args>(args)...);
   }
 
   template <typename T>
-  typename std::enable_if<!has_member_Before<T, Args...>::value &&
-                          has_member_Future<T, Args...>::value>::type
-  Invoke(Args&&... args, T&& aspect) {
-    m_f(std::forward<Args>(args)...);
+  auto Invoke(Args&&... args, T&& aspect) -> KATA_AOP_ONLY_FUTURE(T) {
+    m_func(std::forward<Args>(args)...);
     aspect.Future(std::forward<Args>(args)...);
   }
 };
 
 //
 
+/**
+ * Wrap the kernel function in list of aspects.
+ * @tparam TAspects
+ * @tparam F
+ * @tparam Args
+ * @param func
+ * @param args
+ */
 template <typename... TAspects, typename F, typename... Args>
-void aop(F&& f, Args&&... args) {
-  Aop<F, Args...>(std::forward<F>(f))
+void aop(F&& func, Args&&... args) {
+  Aop<F, Args...>(std::forward<F>(func))
       .Invoke(std::forward<Args>(args)..., identity_t<TAspects>()...);
 }
 

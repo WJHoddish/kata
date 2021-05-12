@@ -1,7 +1,7 @@
 // Created by Jiaheng on 2021/4/29.
 // Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
-// Singleton based on CRTP idiom & C++ Magic Static.
+// Meyer's singleton.
 
 #ifndef KATA_SINGLETON_H
 #define KATA_SINGLETON_H

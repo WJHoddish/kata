@@ -2,20 +2,16 @@
 // Copyright (c) 2021 Jiaheng Wang All rights reserved.
 //
 
-#include <Test.h>
+#include <gtest/gtest.h>
 
 #include "kata/more_traits/function_traits.h"
 
-class AA {
+class A {
  public:
   void func(int i) const {}
 };
 
-static int func(char a, const short* b, float& c) {
-  print(a, *b, c);
-
-  return 0;
-}
+auto func(char a, const short* b, float& c) { return 0; }
 
 TEST(TestMoreTraits, function_traits) {
   using namespace kata;
@@ -42,7 +38,7 @@ TEST(TestMoreTraits, function_traits) {
 
   // member function
   EXPECT_EQ(
-      (std::is_same<typename function_traits<decltype(&AA::func)>::arg_type<1>,
+      (std::is_same<typename function_traits<decltype(&A ::func)>::arg_type<1>,
                     int>::value),
       true);
 

@@ -1,5 +1,5 @@
-// Created by Jiaheng on 2021/5/4.
-// Copyright (c) 2021 Jiaheng Wang All rights reserved.
+// Created by Jiaheng on 2021/5/11.
+// Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
 
 #include <gtest/gtest.h>
@@ -23,14 +23,6 @@ TEST(TestGem, binary) {
 #include "kata/gem/factorial.h"
 
 TEST(TestGem, factorial) {
-  EXPECT_EQ(gem::factorial<3>::value, 6);
-  EXPECT_EQ(gem::factorial<4>::value, 24);
-}
-
-#include "kata/gem/max.h"
-#include "kata/gem/min.h"
-
-int main(int argc, char** argv) {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  EXPECT_EQ(gem::factorial<0>::value, 1);
+  EXPECT_EQ(gem::factorial<5>::value, 120);
 }

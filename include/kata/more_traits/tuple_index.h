@@ -1,7 +1,6 @@
 // Created by Jiaheng on 2021/5/3.
 // Copyright (c) 2021 Jiaheng Wang All rights reserved.
 //
-// The basis of tuple elements extraction, aka, fill.
 
 #ifndef KATA_TUPLE_INDEX_H
 #define KATA_TUPLE_INDEX_H

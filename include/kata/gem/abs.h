@@ -1,7 +1,7 @@
 // Created by Jiaheng on 2021/4/28.
 // Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
-// Absolute value.
+// Compute absolute value.
 
 #ifndef KATA_ABS_H
 #define KATA_ABS_H

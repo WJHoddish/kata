@@ -1,6 +1,7 @@
 // Created by Jiaheng on 2021/5/3.
 // Copyright (c) 2021 Jiaheng Wang All rights reserved.
 //
+// Extract function type information.
 
 #ifndef KATA_FUNCTION_TRAITS_H
 #define KATA_FUNCTION_TRAITS_H
@@ -67,7 +68,7 @@ using function_type_t = typename function_traits<F>::function_type;
 
 template <typename F>
 constexpr auto to_function(const F& f) {
-  return static_cast<function_type_t<F>>(f);
+  return static_cast<function_type_t<F>>(f);  // lambda => STL function
 }
 
 template <typename F>

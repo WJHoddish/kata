@@ -1,27 +1,25 @@
-// Created by Jiaheng on 2021/5/10.
+// Created by Jiaheng on 2021/5/11.
 // Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
 
-#include <Test.h>
+#include <gtest/gtest.h>
 
 #include "kata/controller/aop.h"
 
-struct TimeElapsedAspect {
-  void Before(int i) { std::cout << "Elapse before" << std::endl; }
+void func() { std::cout << "func" << std::endl; }
 
-  void Future(int i) { std::cout << "Elapse future" << std::endl; }
+struct TimeElapsedAspect {
+  static void Before() { std::cout << "Elapsed before" << std::endl; }
+  static void Future() { std::cout << "Elapsed future" << std::endl; }
 };
 
 struct LoggingAspect {
-  void Before(int i) { std::cout << "Logging before" << std::endl; }
-
-  void Future(int i) { std::cout << "Logging future" << std::endl; }
+  static void Before() { std::cout << "Logging before" << std::endl; }
+  static void Future() { std::cout << "Logging future" << std::endl; }
 };
-
-void foo(int a) { std::cout << "foo" << std::endl; }
 
 TEST(TestController, aop) {
   using namespace kata;
 
-  aop<LoggingAspect, TimeElapsedAspect>(&foo, 1);
+  aop<LoggingAspect, TimeElapsedAspect>(&func);
 }
