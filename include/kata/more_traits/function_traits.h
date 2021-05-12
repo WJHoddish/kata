@@ -6,9 +6,9 @@
 #ifndef KATA_FUNCTION_TRAITS_H
 #define KATA_FUNCTION_TRAITS_H
 
-#include <functional>
+#include <kata/more_traits/at.h>
 
-#include "at.h"
+#include <functional>
 
 namespace kata {
 

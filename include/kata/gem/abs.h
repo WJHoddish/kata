@@ -6,8 +6,6 @@
 #ifndef KATA_ABS_H
 #define KATA_ABS_H
 
-#include <type_traits>
-
 namespace gem {
 
 //

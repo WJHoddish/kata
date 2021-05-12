@@ -12,9 +12,9 @@ struct W;  // weight
 
 template <typename T>
 auto test_type_dict(const T& tp) {
-  auto a      = tp.template get<A>();
-  auto b      = tp.template get<B>();
-  auto weight = tp.template get<W>();
+  auto a      = tp.template Get<A>();
+  auto b      = tp.template Get<B>();
+  auto weight = tp.template Get<W>();
 
   return a * weight + b * (1 - weight);
 }
@@ -23,7 +23,7 @@ TEST(TestContainer, type_dict) {
   using TParams = kata::TypeDict<A, B, W>;
 
   EXPECT_EQ(
-      test_type_dict(TParams::Create().set<A>(1.3).set<B>(2.4).set<W>(0.1)),
+      test_type_dict(TParams::Create().Set<A>(1.3).Set<B>(2.4).Set<W>(0.1)),
       2.29);
 }
 

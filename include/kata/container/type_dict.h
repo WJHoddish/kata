@@ -159,7 +159,7 @@ class TypeDict {
      * @return
      */
     template <typename TKey, typename TVal, typename TRaw = std::decay_t<TVal>>
-    auto set(TVal&& val) && {
+    auto Set(TVal&& val) && {
       // replace the original void pointer
       constexpr static std::size_t id = type_2_id<TKey, 0, TKeys...>::value;
       m_tuple[id]                     = std::shared_ptr<void>(
@@ -177,7 +177,7 @@ class TypeDict {
      * @return
      */
     template <typename TKey>
-    auto& get() const {
+    auto& Get() const {
       constexpr static std::size_t id = type_2_id<TKey, 0, TKeys...>::value;
       return *static_cast<id_2_type_t<id, Args...>*>(m_tuple[id].get());
     }

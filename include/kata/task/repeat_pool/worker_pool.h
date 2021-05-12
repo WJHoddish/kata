@@ -7,11 +7,10 @@
 
 #include <kata/alloc.h>
 #include <kata/noncopyable.h>
+#include <kata/task/repeat_pool/blocking_counter.h>
 
 #include <thread>
 #include <vector>
-
-#include "blocking_counter.h"
 
 namespace kata {
 

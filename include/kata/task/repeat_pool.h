@@ -5,9 +5,9 @@
 #ifndef KATA_REPEAT_POOL_H
 #define KATA_REPEAT_POOL_H
 
-#include <functional>
+#include <kata/task/repeat_pool/worker_pool.h>
 
-#include "repeat_pool/worker_pool.h"
+#include <functional>
 
 namespace kata {
 
