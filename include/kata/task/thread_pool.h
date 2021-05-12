@@ -24,7 +24,7 @@ class ThreadPool {
   bool                              m_stop;
 
  public:
-  explicit ThreadPool(std::size_t n = std::thread::hardware_concurrency())
+  explicit ThreadPool(unsigned n = std::thread::hardware_concurrency())
       : m_stop(false) {
     for (std::size_t i = 0; i < n; ++i) {
       // start thread function

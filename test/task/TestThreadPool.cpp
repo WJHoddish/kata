@@ -25,5 +25,22 @@ TEST(TestTask, thread_pool) {
     for (int i = 0; i < 100; ++i) pool.Enqueue(func, 0, i);
   }
 
-  EXPECT_EQ(var, 4950);
+  EXPECT_EQ(var -= 4950, 0);
+}
+
+#include "kata/task/repeat_pool.h"
+
+TEST(TestTask, repeat_pool) {
+  using namespace kata;
+
+  auto pool = RepeatPool();
+  pool.Run(func, 100);
+
+  EXPECT_EQ(var -= 4950, 0);
+}
+
+TEST(TestTask, without_pool) {
+  for (int i = 0; i < 100; ++i) func(0, i);
+
+  EXPECT_EQ(var -= 4950, 0);
 }

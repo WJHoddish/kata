@@ -3,6 +3,7 @@ set( FOLDER_LIST
         controller
         gem
         more_traits
+        pattern
         task
         )
 
