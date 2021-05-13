@@ -6,7 +6,7 @@
 #ifndef KATA_AOP_H
 #define KATA_AOP_H
 
-#include <kata/container/type_dict.h>
+#include <kata/more_traits/identity.h>
 #include <kata/noncopyable.h>
 
 #define KATA_AOP_MEMBER(member)                                          \
@@ -32,7 +32,7 @@ KATA_AOP_MEMBER(Future)
 
 #define KATA_AOP_BOTH(x)                                   \
   std::enable_if_t<has_member_Before<x, Args...>::value && \
-                   has_member_Future<x, Args...>::value>  // SFINAE
+                   has_member_Future<x, Args...>::value>
 
 #define KATA_AOP_ONLY_BEFORE(x)                            \
   std::enable_if_t<has_member_Before<x, Args...>::value && \
@@ -58,8 +58,6 @@ class Aop : public Noncopyable {
     ;
   }
 
-  //
-
   template <typename TCurrent, typename... TRemains>
   auto Invoke(Args&&... args, TCurrent&& current, TRemains&&... remains)
       -> KATA_AOP_BOTH(TCurrent) {
@@ -81,8 +79,6 @@ class Aop : public Noncopyable {
     Invoke(std::forward<Args>(args)..., std::forward<TRemains>(remains)...);
     current.Future(std::forward<Args>(args)...);
   }
-
-  //
 
   template <typename T>
   auto Invoke(Args&&... args, T&& aspect) -> KATA_AOP_BOTH(T) {
@@ -107,7 +103,7 @@ class Aop : public Noncopyable {
 //
 
 /**
- * Wrap the kernel function in list of aspects.
+ * Wrap the kernel function in a list of aspects.
  * @tparam TAspects
  * @tparam F
  * @tparam Args

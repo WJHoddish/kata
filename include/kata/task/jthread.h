@@ -5,4 +5,10 @@
 #ifndef KATA_JTHREAD_H
 #define KATA_JTHREAD_H
 
+namespace kata {
+
+//
+
+}
+
 #endif  // KATA_JTHREAD_H

@@ -4,14 +4,14 @@
 
 #include <gtest/gtest.h>
 
-#include "kata/container/type_dict.h"
+#include "kata/container/var_type_dict.h"
 
 struct A;
 struct B;
-struct W;  // weight
+struct W;
 
 template <typename T>
-auto test_type_dict(const T& tp) {
+auto linear_function(const T& tp) {
   auto a      = tp.template Get<A>();
   auto b      = tp.template Get<B>();
   auto weight = tp.template Get<W>();
@@ -20,25 +20,27 @@ auto test_type_dict(const T& tp) {
 }
 
 TEST(TestContainer, type_dict) {
-  using TParams = kata::TypeDict<A, B, W>;
+  using namespace kata;
 
   EXPECT_EQ(
-      test_type_dict(TParams::Create().Set<A>(1.3).Set<B>(2.4).Set<W>(0.1)),
+      linear_function(
+          VarTypeDict<A, B, W>::Create().Set<A>(1.3).Set<B>(2.4).Set<W>(0.1)),
       2.29);
 }
 
 struct C;
 
 template <typename T>
-auto test_type_dict_influence_pointer(const T& tp) {
-  return ++(*tp.template get<C>());  // pass as pointer
+auto modify_pointer(const T& tp) {
+  return ++(*tp.template Get<C>());  // pass as pointer
 }
 
 TEST(TestContainer, type_dict_reference) {
-  using TParams = kata::TypeDict<C>;
+  using namespace kata;
 
   int c = 0;
-  test_type_dict_influence_pointer(TParams::Create().set<C>(&c));
+
+  modify_pointer(VarTypeDict<C>::Create().Set<C>(&c));
 
   EXPECT_EQ(c, 1);
 }

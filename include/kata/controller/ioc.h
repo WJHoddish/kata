@@ -31,14 +31,6 @@ class Ioc : public Noncopyable {
   }
 
  public:
-  /**
-   * Types should not have derived relation.
-   * @tparam TA
-   * @tparam TB
-   * @tparam Args
-   * @param key
-   * @return
-   */
   template <class TA, typename TB, typename... Args>
   auto RegisterType(const std::string& key)
       -> std::enable_if_t<!std::is_base_of<TA, TB>::value &&

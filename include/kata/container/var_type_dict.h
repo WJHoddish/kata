@@ -1,10 +1,9 @@
-// Created by Jiaheng on 2021/5/7.
+// Created by Jiaheng on 2021/5/13.
 // Copyright (c) 2021 Jiaheng Wang <wjhgeneral@outlook.com> All rights reserved.
 //
-// Variadic-Type Dictionary (VTD), a frequently-used function arguments wrapper.
 
-#ifndef KATA_TYPE_DICT_H
-#define KATA_TYPE_DICT_H
+#ifndef KATA_VAR_TYPE_DICT_H
+#define KATA_VAR_TYPE_DICT_H
 
 #include <kata/more_traits/identity.h>
 
@@ -137,7 +136,7 @@ using id_2_type_t = typename id_2_type<N, TRemains...>::type;
 //
 
 template <typename... TKeys>
-class TypeDict {
+class VarTypeDict {
   template <typename... Args>
   class Values {
     std::shared_ptr<void> m_tuple[sizeof...(Args)];
@@ -191,4 +190,4 @@ class TypeDict {
 
 }  // namespace kata
 
-#endif  // KATA_TYPE_DICT_H
+#endif  // KATA_VAR_TYPE_DICT_H

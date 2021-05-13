@@ -21,7 +21,7 @@ class RepeatPool {
     std::size_t                                          end{};
 
     void Run() override {
-      for (auto i = begin; i < end; ++i) (*fn)(id, i);
+      for (std::size_t i = begin; i < end; ++i) (*fn)(id, i);
     }
   };
 
