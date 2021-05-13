@@ -40,3 +40,7 @@ cmake-build-release/
 cmake-build-relwithdebinfo/
 .idea/
 .vscode/
+
+# Python
+__pycache__/
+*.pyc

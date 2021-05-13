@@ -26,3 +26,7 @@ class ActivationBase(ABC):
         """
 
         raise NotImplementedError
+
+    @abstractmethod
+    def grad2(self, x):
+        raise NotImplementedError
