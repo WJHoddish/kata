@@ -5,7 +5,7 @@ import numpy as np
 from .activation import ActivationBase
 
 
-class Sigmoid(ActivationBase, ABC):
+class Sigmoid(ActivationBase):
 
     def __init__(self):
         super().__init__()

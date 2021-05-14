@@ -5,7 +5,7 @@ import numpy as np
 from .activation import ActivationBase
 
 
-class Tanh(ActivationBase, ABC):
+class Tanh(ActivationBase):
 
     def __init__(self):
         """

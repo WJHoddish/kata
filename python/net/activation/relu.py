@@ -5,9 +5,12 @@ import numpy as np
 from .activation import ActivationBase
 
 
-class ReLU(ActivationBase, ABC):
+class ReLU(ActivationBase):
 
     def __init__(self):
+        """
+        Rectified Linear Unit, the most common one.
+        """
         super().__init__()
 
     def fn(self, x):
@@ -24,9 +27,13 @@ class ReLU(ActivationBase, ABC):
         return np.zeros_like(x)
 
 
-class LeakyReLU(ActivationBase, ABC):
+class LeakyReLU(ActivationBase):
 
     def __init__(self, alpha=0.3):
+        """
+        Allow negative value.
+        :param alpha:
+        """
         super().__init__()
 
         self.alpha = alpha  #
@@ -39,9 +46,9 @@ class LeakyReLU(ActivationBase, ABC):
 
     def grad(self, x):
         res = np.ones_like(x)
-        res[x < 0] *= self.alpha
+        res[x < 0] *= self.alpha  # always not zero
 
         return res
 
     def grad2(self, x):
-        return np.zeros_like(x)
+        return np.zeros_like(x)  # generate a zero matrix with the same size of input ndarray
