@@ -2,7 +2,10 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from utility import greet
+from utility import *
+
+
+# Loss/objective function
 
 
 class ObjectiveBase(ABC):
@@ -46,7 +49,7 @@ class CrossEntropy(ObjectiveBase):
         super().__init__()
 
     def loss(self, y, fx):
-        utility.is_binary(y)
+        is_binary(y)
         is_stochastic(fx)
 
     def grad(self, y, fx, **kwargs):
