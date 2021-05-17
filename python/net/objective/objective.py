@@ -52,5 +52,16 @@ class CrossEntropy(ObjectiveBase):
         is_binary(y)
         is_stochastic(fx)
 
+        eps = np.finfo(float).eps  # eps is a small positive value
+
+        return -np.sum(
+            y  # true distribution (0 or 1)
+            *
+            np.log(fx + eps)  # prevent zeros
+        )
+
     def grad(self, y, fx, **kwargs):
-        pass
+        is_binary(y)
+        is_stochastic(fx)
+
+        return fx - y  # solve derivative via classified discussion
