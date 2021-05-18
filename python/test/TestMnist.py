@@ -1,56 +1,37 @@
-import struct
+import matplotlib.pyplot as plt
 
-import numpy as np
-
-train_images_idx3_ubyte_file = './MNIST/train-images-idx3-ubyte'
-train_labels_idx1_ubyte_file = './MNIST/train-labels-idx1-ubyte'
-
-test_images_idx3_ubyte_file = './MNIST/t10k-images-idx3-ubyte'
-test_labels_idx1_ubyte_file = './MNIST/t10k-labels-idx1-ubyte'
+from alea import *
 
 
-def decode_idx3_ubyte(idx3_ubyte_file):
-    bin_data = open(idx3_ubyte_file, 'rb').read()  # binary data
+def load(file):
+    """
+    Parse MNIST .npz files.
+    :param file:
+    :return:
+    """
 
-    offset = 0
-    fmt_header = '>IIII'
-    magic_number, num_images, num_rows, num_cols = struct.unpack_from(fmt_header, bin_data, offset)
-    print("magic: %d, count: %d, size: %d * %d" % (magic_number, num_images,  # train set
-                                                   num_rows, num_cols))
+    file = np.load(file)
 
-    image_size = num_rows * num_cols
-    offset += struct.calcsize(fmt_header)
-    fmt_image = '>' + str(image_size) + 'B'
-    images = np.empty((num_images, num_rows, num_cols))
-    for i in range(num_images):
-        if (i + 1) % 10000 == 0:
-            print("done %d" % (i + 1), "pictures")
-        images[i] = np.array(struct.unpack_from(fmt_image, bin_data, offset)).reshape((num_rows, num_cols))
-        offset += struct.calcsize(fmt_image)
-
-    return images
+    return file['X'], file['Y']
 
 
-def decode_idx1_ubyte(idx1_ubyte_file):
-    bin_data = open(idx1_ubyte_file, 'rb').read()
+def train():
+    batch_size = 0
 
-    offset = 0
-    fmt_header = '>II'
-    magic_number, num_images = struct.unpack_from(fmt_header, bin_data, offset)
-    print("magic: %d, num_images: %d" % (magic_number, num_images))
+    # load data
+    X, Y = load('MNIST/train_set.npz')
 
-    offset += struct.calcsize(fmt_header)
-    fmt_image = '>B'
-    labels = np.empty(num_images)
-    for i in range(num_images):
-        if (i + 1) % 10000 == 0:
-            print("done %d" % (i + 1) + "zhang")
-        labels[i] = struct.unpack_from(fmt_image, bin_data, offset)[0]
-        offset += struct.calcsize(fmt_image)
+    data_size = X.shape[0]  # 60000
 
-    return labels  # ndarray
+    # train process
+    i = 0
+    while i <= data_size - batch_size:
+        # select a range of data
+        x = X[i:i + batch_size]
+        y = Y[i:i + batch_size]
+
+        i += batch_size
 
 
 if __name__ == '__main__':
-    train_images = decode_idx3_ubyte(train_images_idx3_ubyte_file)
-    train_labels = decode_idx1_ubyte(train_labels_idx1_ubyte_file)
+    train()
