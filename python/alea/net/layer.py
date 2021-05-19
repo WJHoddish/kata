@@ -5,8 +5,8 @@ class Layer(ABC):
 
     @abstractmethod
     def forward(self, *args):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
     def backward(self, *args):
-        pass
+        raise NotImplementedError

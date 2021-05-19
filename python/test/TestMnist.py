@@ -1,3 +1,4 @@
+import numpy as np
 from matplotlib import pyplot as plt
 
 from alea import *
@@ -13,11 +14,6 @@ def load(file):
     file = np.load(file)
 
     return file['X'], file['Y']
-
-
-def show(x):
-    plt.matshow(np.squeeze(x))
-    plt.show()
 
 
 def train():
@@ -55,14 +51,3 @@ def train():
         i += batch_size
 
         # feed to network
-
-
-if __name__ == '__main__':
-    a = np.array([1, 2, 3]).reshape(1, 3)
-
-    W = np.zeros(3)
-
-    check(a)
-    check(W)
-
-    train()

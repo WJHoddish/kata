@@ -1,6 +1,7 @@
 import numpy as np
 
-from alea import Layer, Parameter
+from .layer import Layer
+from .parameter import Parameter
 
 
 class Linear(Layer):
@@ -22,9 +23,7 @@ class Linear(Layer):
         return np.dot(x, self.W.data) + self.b.data
 
     def backward(self, eta):
-        batch_size = eta.shape[0]
-
-        self.W.grad = np.dot(self.x.T, eta) / batch_size
-        self.b.grad = np.sum(eta, axis=0) / batch_size
+        self.W.grad = np.dot(self.x.T, eta)
+        self.b.grad = eta
 
         return np.dot(eta, self.W.T)
