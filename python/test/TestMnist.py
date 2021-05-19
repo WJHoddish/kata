@@ -9,9 +9,9 @@ def load(file):
     :param file:
     :return:
     """
-    
+
     file = np.load(file)
-    
+
     return file['X'], file['Y']
 
 
@@ -23,10 +23,10 @@ def show(x):
 def train():
     # load data
     X, Y = load('MNIST/train_set.npz')
-    
+
     data_size = X.shape[0]  # 60000
-    
-    # NOTE: Set up network.
+
+    # set up network
     layers = [
         {'type': 'batchnorm', 'shape': 784, 'requires_grad': False, 'affine': False},
         {'type': 'linear', 'shape': (784, 400)},
@@ -37,25 +37,32 @@ def train():
         {'type': 'relu'},
         {'type': 'linear', 'shape': (100, 10)}
     ]
-    
+
     net = layers
-    
-    # NOTE: Set hyper-parameters.
+
+    # set hyper-parameters
     batch_size = 128
     lr = 0.001  # learning rate
     fn = CrossEntropy()  # loss function
-    
+
     # train process
     i = 0
     while i <= data_size - batch_size:
         # select a range of data
         x = X[i:i + batch_size]
         y = Y[i:i + batch_size]
-        
+
         i += batch_size
-        
+
         # feed to network
 
 
 if __name__ == '__main__':
+    a = np.array([1, 2, 3]).reshape(1, 3)
+
+    W = np.zeros(3)
+
+    check(a)
+    check(W)
+
     train()

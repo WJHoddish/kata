@@ -1,22 +1,25 @@
 import numpy as np
 
-from alea import Softmax
+
+def softmax(x):
+    v = np.exp(x - x.max(axis=-1, keepdims=True))
+
+    return v / v.sum(axis=-1, keepdims=True)
 
 
 class CrossEntropy:
-    
-    def __init__(self):
-        self.classifier = Softmax()
-    
+
     def __call__(self, a, y):
         """
         
-        :param a:
-        :param y:
+        :param a: network output
+        :param y: binary labels
         :return: both accuracy and loss value.
         """
-        
-        a = self.classifier.forward(a)
+
+        a = softmax(a)
         p = np.argmax(a, axis=-1) == np.argmax(y, axis=-1)  # mark correct answer as True
-        
-        return p.mean(), -1 * np.einsum('ij,ij->', y, np.log(a)) / y.shape[0]
+
+        eps = np.finfo(float).eps
+
+        return p.mean(), -np.sum(y * np.log(a + eps))
