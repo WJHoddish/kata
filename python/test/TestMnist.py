@@ -84,6 +84,10 @@ if __name__ == '__main__':
         {'type': 'relu'},
         {'type': 'linear', 'shape': (200, 100)},
         {'type': 'relu'},
+        {'type': 'linear', 'shape': (100, 100)},
+        {'type': 'relu'},
+        {'type': 'linear', 'shape': (100, 100)},
+        {'type': 'relu'},
         {'type': 'linear', 'shape': (100, 10)}
     ]
 

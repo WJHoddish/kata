@@ -18,11 +18,23 @@ class Linear(Layer):
         self.x = None
 
     def forward(self, x):
+        """
+
+        :param x: (ba, m)
+        :return:
+        """
+
         self.x = x
 
         return np.dot(x, self.W.data) + self.b.data
 
     def backward(self, eta):
+        """
+
+        :param eta: (ba, n)
+        :return:
+        """
+
         batch_size = eta.shape[0]
 
         self.W.grad = np.dot(self.x.T, eta) / batch_size

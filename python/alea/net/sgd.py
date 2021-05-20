@@ -6,6 +6,6 @@ class SGD:
 
     def update(self):
         for p in self.params:
-            p.data *= 0.8
+            p.data *= 0.8  # regular term
 
             p.data -= self.lr * p.grad
