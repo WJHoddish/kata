@@ -6,7 +6,7 @@ from .parameter import Parameter
 
 class Linear(Layer):
 
-    def __init__(self, shape):
+    def __init__(self, shape, **kwargs):
         """
 
         :param shape: neurons (m, n)
@@ -23,7 +23,9 @@ class Linear(Layer):
         return np.dot(x, self.W.data) + self.b.data
 
     def backward(self, eta):
-        self.W.grad = np.dot(self.x.T, eta)
-        self.b.grad = eta
+        batch_size = eta.shape[0]
+
+        self.W.grad = np.dot(self.x.T, eta) / batch_size
+        self.b.grad = np.sum(eta, axis=0) / batch_size
 
         return np.dot(eta, self.W.T)

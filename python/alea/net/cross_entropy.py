@@ -17,10 +17,14 @@ class CrossEntropy:
         :return:
         """
 
-        a = softmax(a)
+        self.a = softmax(a)
+        self.y = y
 
-        p = np.argmax(a, axis=-1) == np.argmax(y, axis=-1).mean()  # mark correct answer as True
+        p = (np.argmax(self.a, axis=-1) == np.argmax(self.y, axis=-1)).mean()  # mark correct answer as True
 
-        e = -np.sum(y * np.log(a + np.finfo(float).eps))
+        e = -1 * np.einsum('ij,ij->', self.y, np.log(self.a + np.finfo(float).eps)) / y.shape[0]
 
         return p, e
+
+    def grad(self):
+        return self.a - self.y
