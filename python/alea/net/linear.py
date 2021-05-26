@@ -30,6 +30,7 @@ class Linear(Layer):
 
     def backward(self, eta):
         """
+        Derive gradients (dL/dw).
 
         :param eta: (ba, n)
         :return:

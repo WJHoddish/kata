@@ -1,5 +1,3 @@
-import numpy as np
-
 from alea import *
 
 
@@ -47,7 +45,7 @@ def train(nn):
             # feed to network
             a = nn.forward(x)
             batch_acc, batch_loss = fn(a, y)
-            eta = fn.grad()
+            eta = fn.grad()  # get loss function's gradient (dL/dy)
             nn.backward(eta)
             optimizer.update()
 
