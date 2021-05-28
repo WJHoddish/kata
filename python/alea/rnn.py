@@ -99,8 +99,6 @@ class RNN:
             d_bh += temp
 
             # dL/dWhh = dL/dh * (1 - h^2) * h_{t-1}
-            print(d_Whh.shape)
-            print(temp @ self.h[t].T)
             d_Whh += temp @ self.h[t].T
 
             # dL/dW(xh) = dL/dh * (1 - h^2) * x
