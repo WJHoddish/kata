@@ -1,19 +1,13 @@
 from alea import *
 
 
-def load(file):
-    """
-    Parse MNIST .npz files.
-    :param file:
-    :return:
-    """
-
+def load(file, reshape=True):
     file = np.load(file)
 
     X = file['X']
     Y = file['Y']
 
-    return X.reshape(len(X), -1), Y
+    return X.reshape(len(X), -1) if reshape else X.squeeze(), Y
 
 
 def train(nn):

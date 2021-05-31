@@ -13,7 +13,7 @@ class CrossEntropy:
         """
         
         :param a: predictions, network's output
-        :param y: true values, binary labels
+        :param y: true values, binary labels (0, 1)
         :return:
         """
 
