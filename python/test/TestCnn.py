@@ -16,9 +16,6 @@ def show(img):
     plt.show()
 
 
-# read data
-X, Y = load('MNIST/train_set.npz', False)
-
 # prepare layers
 conv = Conv3x3(8)
 pool = MaxPool2x2()
@@ -42,8 +39,6 @@ def forward(x, y):
     # linear layer (activation: softmax)
     a = softmax.forward(a)
 
-    y = np.argmax(y)
-
     # cross-entropy error
     e = -np.log(a[y])
     p = 1 if np.argmax(a) == y else 0
@@ -51,23 +46,61 @@ def forward(x, y):
     return a, e, p  # output, loss, accuracy
 
 
+def train(x, y, backward=True):
+    y = np.argmax(y)
+
+    # forward
+    a, e, p = forward(x, y)
+
+    if backward:
+        grad = np.zeros(10)
+        grad[y] = -1 / a[y]  # dL/da
+
+        # backward
+        grad = softmax.backward(grad)
+        grad = pool.backward(grad)
+        grad = conv.backward(grad)
+
+    return e, p  # loss, accuracy (result of this epoch)
+
+
 if __name__ == '__main__':
-    # run
-    loss = 0
-    true = 0
 
-    for i, (image, label) in enumerate(zip(X, Y)):
-        out, err, acc = forward(image, label)
+    for j in range(3):
 
-        loss += err
-        true += acc
+        # train
+        X, Y = load('MNIST/train_set.npz', False)
 
-        if i % 100 == 99:
-            print(
-                '[Step %d] Past 100 steps: Loss %.3f | Accuracy: %d%%' %
-                (i + 1, loss / 100, true)
-            )
+        loss = 0
+        true = 0
 
-            # reset after one epoch
-            loss = 0
-            true = 0
+        for i, (image, label) in enumerate(zip(X, Y)):
+
+            if i % 10000 == 9999:
+                print(
+                    '[Step %d] Past 100 steps: Loss %.3f | Accuracy: %d%%' %
+                    (i + 1, loss / 100, true)
+                )
+
+                # reset after one epoch
+                loss = 0
+                true = 0
+
+            err, acc = train(image, label)
+            loss += err
+            true += acc
+
+        # test
+        X, Y = load('MNIST/test_set.npz', False)
+
+        loss = 0
+        true = 0
+
+        for i, (image, label) in enumerate(zip(X, Y)):
+            err, acc = train(image, label, False)  # no backward
+            loss += err
+            true += acc
+
+        print(
+            'Test Set Accuracy:', true / X.shape[0] * 100
+        )
